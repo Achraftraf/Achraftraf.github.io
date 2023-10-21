@@ -1,7 +1,6 @@
-import React , {useState} from 'react'
-
-
-// icons
+import React, { useState} from 'react';
+import { FaJava, FaBootstrap , FaPhp , FaPython } from "react-icons/fa6";
+import { TbBrandCSharp } from "react-icons/tb";
 import {
   FaHtml5,
   FaCss3,
@@ -9,19 +8,22 @@ import {
   FaReact,
   FaWordpress,
   FaFigma,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
 import {
   SiNextdotjs,
-  SiFramer,
-  SiAdobexd,
-  SiAdobephotoshop,
-} from "react-icons/si";
+  SiJquery,
+  SiSpringboot,
+  SiTailwindcss,
+  SiHibernate,
+  SiNeo4J,
+  SiRedis,
+  SiPostgresql,
+  SiMysql,
+  SiTalend
+} from 'react-icons/si';
 
-
-
-
-//  data
+// Data
 const aboutData = [
   {
     title: 'skills',
@@ -29,18 +31,30 @@ const aboutData = [
       {
         title: 'Web Development',
         icons: [
+          <SiSpringboot />,
+          <SiTailwindcss />,
+          <FaPhp />,
+          <FaBootstrap />,
           <FaHtml5 />,
           <FaCss3 />,
           <FaJs />,
           <FaReact />,
           <SiNextdotjs />,
-          <SiFramer />,
-          <FaWordpress />,
+          <SiJquery />,
+          <SiHibernate />,
         ],
       },
       {
-        title: 'UI/UX Design',
-        icons: [<FaFigma />, <SiAdobexd />, <SiAdobephotoshop />],
+        title: 'Programming Languages',
+        icons: [<FaJava />, <FaPython />, <TbBrandCSharp />],
+      },
+      {
+        title: 'Database Management Systems',
+        icons: [<SiNeo4J />, <SiRedis />, <SiPostgresql /> , <SiMysql />],
+      },
+      {
+        title: 'Data Integration',
+        icons: [<SiTalend />],
       },
     ],
   },
@@ -93,7 +107,6 @@ const aboutData = [
   },
 ];
 
-
 import Avatar from '../../components/Avatar';
 import Circles from '../../components/Circles';
 
@@ -101,25 +114,54 @@ import { motion } from 'framer-motion';
 import { fadeIn } from '../../variants';
 
 const About = () => {
-  const [index , setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
+  console.log(index);
   return (
-  <div className='h-full bg-primary/30 py-32 text-center xl:text-left'>
-    <Circles />
-    <motion.div  variants={fadeIn('right , 0.2')} initial="hidden" animate="show" exit="hidden" className='hidden xl:flex absolute bottom-0 -left-[370px]'>
-    <Avatar />
-    </motion.div>
-    <div className='container mx-auto h-full flex flex-col items-center xl:flex-row gap-x-6'></div>
-    <div>text</div>
-    <div>
-    <div className=''>
-      {aboutData.map((item , itemIndex)=> {
-        return (
-        <div key={itemIndex} className='cursor-pointer capitalize xl:text-lg relative after:w-8 after:h-[2px] after:bg-white after:absolute after:-bottpm-1 after:left-0'>{item.title}</div>
-        )
-      })}
-       </div>
+    <div className="h-full bg-primary/30 py-32 text-center xl:text-left">
+      <Circles />
+      {/* Avatar img */}
+      <motion.div
+        variants={fadeIn('right', 0.2)}
+        initial="hidden"
+        animate="show"
+        exit="hidden"
+        className="hidden xl:flex absolute bottom-0 -left-[370px]"
+      >
+        <Avatar />
+      </motion.div>
+      <div className="container mx-auto h-full flex flex-col items-center xl:flex-row gap-x-6">
+        <div className='flex-1 flex flex flex-col justify-center'>text</div>
+        <div className='flex flex-col w-full xl:max-w-[48%] h-[480px]'>
+          <div className='flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-4'>
+            {aboutData.map((item, itemIndex) => (
+              <div
+                key={itemIndex}
+                className={`${index === itemIndex && 'text-accent after:w-[100%] after:bg-accent after:transition-all after:duration-300'} cursor-pointer capitalize xl:text-lg relative after:w-8 after:h-[2px] after:bg-white after:absolute after:-bottom-1 after:-left-0`}
+                onClick = {()=> setIndex(itemIndex)}
+                >
+                {item.title}
+              </div>
+            ))}
+          </div> 
+          <div className='py-2 xl:py-6 flex  flex-col gap-y-2 xl:gap-y-4 item-center xl:items-start'>
+            {aboutData[index].info.map((item,itemIndex)=>{
+              return (
+                <div key={itemIndex}>
+                  <div>{item.title}</div>
+                  <div className='hidden md:flex'>-</div>
+                  <div>{item.stage}</div>
+                  <div className='flex gap-x-4'>
+                  {item.icons?.map((icon,itemIndex)=>{
+                    return <div>{icon}</div>
+                  })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
   );
 };
 
