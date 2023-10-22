@@ -205,7 +205,12 @@ className='hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8'>
 </motion.div>
         </div>
         <div className='flex flex-col w-full xl:max-w-[48%] h-[480px]'>
-          <div className='flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-4'>
+          <motion.iv 
+           variants={fadeIn('left', 0.4)}
+           initial="hidden"
+           animate="show"
+           exit="hidden"
+          className='flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-4'>
             {aboutData.map((item, itemIndex) => (
               <div
                 key={itemIndex}
@@ -215,7 +220,7 @@ className='hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8'>
                 {item.title}
               </div>
             ))}
-          </div> 
+          </motion.iv> 
           <div className='py-2 xl:py-6 flex  flex-col gap-y-2 xl:gap-y-4 item-center xl:items-start'>
             {aboutData[index].info.map((item,itemIndex)=>{
               return (
