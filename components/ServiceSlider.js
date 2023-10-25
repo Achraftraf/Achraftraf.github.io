@@ -37,6 +37,8 @@ const serviceData = [
   },
 ];
 
+import Swiper from "swiper";
+
 const ServiceSlider = () => {
   return <div>Service Slider</div>;
 };

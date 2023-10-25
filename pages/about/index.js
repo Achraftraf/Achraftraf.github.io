@@ -43,7 +43,6 @@ const aboutData = [
           <SiNextdotjs />,
           <SiJquery />,
           <SiHibernate />,
-          <SiCisco />
         ],
       },
       {
