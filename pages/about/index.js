@@ -34,15 +34,15 @@ const aboutData = [
         icons: [
           <SiSpringboot />,
           <SiTailwindcss />,
-          <FaPhp />,
-          <FaBootstrap />,
-          <FaHtml5 />,
-          <FaCss3 />,
+          // <FaPhp />,
+          // <FaBootstrap />,
+          // <FaHtml5 />,
+          // <FaCss3 />,
           <FaJs />,
           <FaReact />,
           <SiNextdotjs />,
-          <SiJquery />,
-          <SiHibernate />,
+          // <SiJquery />,
+          // <SiHibernate />,
         ],
       },
       {
@@ -85,20 +85,20 @@ const aboutData = [
     title: 'education',
     info: [
       {
-        title: "Master's degree, Computer Engineering - Université Abdelmalek Essaâdi Tétouan",
-        stage: ' [ 15/09/2022 - Current ] ',
+        title: "Master's degree, Computer Engineering - Université Abdelmalek Essaâdi Tétouan"
+       
       },
       {
-        title: "Bachelor's Degree in Mathematoics and Computer Science",
-        stage: '[ 01/09/2021 - 30/06/2022 ]',
+        title: "Bachelor's Degree in Mathematoics and Computer Science"
+       
       },
       {
-        title: 'General University Studies Diploma Mathematical and computer sciences',
-        stage: '[ 01/09/2018 - 30/06/2021 ]',
+        title: 'General University Studies Diploma Mathematical and computer sciences'
+       
       },
       {
-        title: 'Baccalaureate Mathematical sciences A-French option',
-        stage: '[ 01/09/2017 - 30/06/2018 ] ',
+        title: 'Baccalaureate Mathematical sciences A-French option'
+       
       },
     ],
   },
@@ -107,23 +107,23 @@ const aboutData = [
     info: [
       {
         title: 'Learn Spring Boot 3 in 100 Steps - No 1 Java Framework',
-        stage: 'October 5, 2023',
+        stage: '2023',
       },
       {
         title: ' Mini projet pratique sur Talend DI',
-        stage: 'September 6, 2023',
+        stage: '2023',
       },
       {
         title: 'Emotional Intelligence at Work: Learn from Your Emotions',
-        stage: 'September 9, 2023',
+        stage: '2023',
       },
       {
         title: 'Data Integration & ETL with Talend Open Studio Zero to Hero ',
-        stage: 'August 4, 2023',
+        stage: '2023',
       },
       {
         title: 'Responsive Web Design',
-        stage: 'January 12, 2023',
+        stage: '2023',
       },
     ],
   },
@@ -153,31 +153,31 @@ const About = () => {
         exit="hidden"
         className="hidden xl:flex absolute bottom-0 -left-[370px]"
       >
-      <Avatarabout />
+      {/* <Avatarabout /> */}
       </motion.div>
-      <div className="container mx-auto h-full flex flex-col items-center xl:flex-row gap-x-6">
+      <div className="container mx-auto h-full flex flex-col items-center xl:flex-row gap-x-4">
         <div className='flex-1 flex flex flex-col justify-center'>
           <motion.h2 
             variants={fadeIn('right', 0.2)}
             initial="hidden"
             animate="show"
             exit="hidden"
-          className='h2'>Captiveting <span className='text-accent'>stories</span> birth magnificent designs.</motion.h2>
-         <motion.p 
+          className='h2'>Gain
+         
+           <span className='text-accent'> Innovate</span> Commit.</motion.h2>
+         {/* <motion.p    
            variants={fadeIn('right', 0.4)}
            initial="hidden"
            animate="show"
-           exit="hidden"
-         className='max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0'>I'm a dedicated Master's student at Abdelmalek Essaadi University, excelling in my studies while actively pursuing self-directed learning. Currently, I'm gaining valuable real-world experience as a Junior Developer at NTT Data.
-
-I specialize in software engineering, focusing on innovative solutions to enhance efficiency and agility. I bring unwavering commitment, energy, and integrity to any team or project.</motion.p>
+           exit="hidden"  
+         className='max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0'></motion.p> */}
 <motion.div 
  variants={fadeIn('right', 0.6)}
  initial="hidden"
  animate="show"
  exit="hidden"
-className='hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8'>
-<div className='flex flex-1 xl:gap-x-6' >
+className='hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8 '>
+<div className='flex flex-1 xl:gap-x-20' >
 <div  className='relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0'>
   <div className='text-2xl xl:text-4xl font-extrabold text-accent mb-2'>
     <CountUp  start={-5} end={5} duration={10} />+ 
