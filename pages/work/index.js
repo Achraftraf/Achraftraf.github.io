@@ -20,13 +20,13 @@ const Work = () => {
           className='flex flex-col xl:flex-row gap-x-8'>
           <motion.div
             className='text-center flex xl:w-[30vm] flex-col lg:text-left mb-4 xl:mb-0'>
-            <motion.h2 variants={fadeIn('up', 0.2)} className='h2 xl:mt-12'>
+            <motion.h2 variants={fadeIn('up', 0.2)} className='h2 x-13 xl:mt-12'>
               my Work<span className='text-accent'>.</span>
             </motion.h2>
             <motion.p
               variants={fadeIn('up', 0.2)}
               className='m-4 max-w-[400px] mx-auto lg:mx-0'>
-              I'm a dedicated Master's student at Abdelmalek Essaadi University, excelling in my studies while actively pursuing self-directed learning. Currently, I'm gaining valuable real-world experience as a Junior Developer at NTT Data.
+             
             </motion.p>
           </motion.div>
           <motion.div
