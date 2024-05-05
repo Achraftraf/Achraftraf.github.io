@@ -26,8 +26,8 @@ const Services = () => {
         animate='show'
         exit='hidden'
         className='m-4 max-w-[400px] mx-auto lg:mx-0'>
-          I'm a dedicated Master's student at Abdelmalek Essaadi University, excelling in my studies while actively pursuing self-directed
-learning. Currently, I'm gaining valuable real-world experience as a Junior Developer at NTT Data.</motion.p>
+         
+Driven Master's student, Developer.</motion.p>
       </div>
       <motion.div 
       variants={fadeIn('down', 0.6)}

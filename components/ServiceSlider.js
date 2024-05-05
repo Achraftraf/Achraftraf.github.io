@@ -7,39 +7,42 @@ import {
   RxCrop,
   RxPencil2,
   RxDesktop,
-  RxReader,
+  RiBarChart2Line,
   RxRocket,
   RxArrowTopRight,
 } from "react-icons/rx";
+import { RiDatabase2Line } from 'react-icons/ri';
+import { FaGraduationCap } from 'react-icons/fa';
 
 // Initialize SwiperCore modules
 SwiperCore.use([Pagination]);
 
 const serviceData = [
   {
+    icon: <RxDesktop />,
+    title: "Development",
+    description: "I develop websites and apps using Spring Boot, React, Next.js, and other languages.",
+  },
+  {
     icon: <RxCrop />,
-    title: "Branding",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    title: "PPT",
+    description: "I can design a professional 3D PowerPoint presentation for any subject.",
   },
   {
     icon: <RxPencil2 />,
     title: "Design",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: "I specialize in designing logos, images, and digital files.",
+  },
+ 
+  {
+    icon: <RiDatabase2Line />,
+    title: "Processing data",
+    description: "I adeptly use Talend and PowerBI for efficient data processing and analysis.",
   },
   {
-    icon: <RxDesktop />,
-    title: "Development",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    icon: <RxReader />,
-    title: "Copywriting",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    icon: <RxRocket />,
-    title: "SEO",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    icon: <FaGraduationCap />,
+    title: "teaching skills",
+    description: "I teach both soft and technical skills to help you land the job and grow.",
   },
 ];
 
