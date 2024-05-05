@@ -85,19 +85,20 @@ const aboutData = [
     title: 'education',
     info: [
       {
-        title: "Master's degree, Computer Engineering - Université Abdelmalek Essaâdi Tétouan"
-       
+        title: "Master's degree, Computer Engineering - fs Tétouan",
+        stage: '2024',
       },
       {
-        title: "Bachelor's Degree in Mathematoics and Computer Science"
-       
+        title: "Bachelor's Degree in Mathematoics and Computer Science",
+        stage: '2023',
       },
       {
-        title: 'General University Studies Diploma Mathematical and computer sciences'
-       
+        title: 'DUG in Mathematoics and Computer Science',
+        stage: '2022',
       },
       {
-        title: 'Baccalaureate Mathematical sciences A-French option'
+        title: 'Baccalaureate Mathematical sciences A-French option',
+        stage: '2018',
        
       },
     ],
