@@ -19,7 +19,7 @@ const Contact = () => {
     }
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formState),
@@ -29,7 +29,8 @@ const Contact = () => {
         setSuccess('Your message has been sent successfully!');
         setFormState({ name: '', email: '', message: '' });
       } else {
-        setError('There was an error sending your message. Please try again.');
+        const errorData = await res.json();
+        setError(errorData.message || 'There was an error sending your message. Please try again.');
       }
     } catch (error) {
       setError('There was an error sending your message. Please try again.');
