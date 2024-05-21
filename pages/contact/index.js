@@ -53,7 +53,7 @@ const Contact = () => {
               value={formState.name}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box'  , color: 'black'}}
             />
           </div>
           <div style={{ marginBottom: '15px' }}>
@@ -65,7 +65,7 @@ const Contact = () => {
               value={formState.email}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' , color: 'black' }}
             />
           </div>
           <div style={{ marginBottom: '15px' }}>
@@ -76,7 +76,7 @@ const Contact = () => {
               value={formState.message}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' , color: 'black' }}
             ></textarea>
           </div>
           <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Submit</button>
