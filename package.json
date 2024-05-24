@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@next/font": "^13.4.4",
+    "@react-three/drei": "^9.105.6",
+    "@react-three/fiber": "^8.16.6",
     "framer-motion": "^10.12.16",
     "next": "13.4.3",
     "nodemailer": "^6.9.13",
@@ -20,9 +22,11 @@
     "react-countup": "^6.4.2",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
+    "react-spring": "^9.7.3",
     "react-tsparticles": "^2.9.3",
     "swiper": "^9.4.0",
     "tailwind-scrollbar": "^3.0.4",
+    "three": "^0.164.1",
     "tsparticles": "^2.9.3"
   },
   "devDependencies": {
