@@ -1,0 +1,14 @@
+{
+  "name": "achraf zarouki",
+  "experience": [
+    {
+      "company": "Tech Solutions Inc.",
+      "role": "Software Engineer"
+    },
+    {
+      "company": "Innovatech",
+      "role": "Junior Developer"
+    }
+  ],
+  "skills": ["JavaScript", "React", "N  ode.js"]
+}
