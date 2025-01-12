@@ -1,14 +1,24 @@
 {
-  "name": "achraf zarouki",
+  "name": "Achraf Zarouki",
+  "title": "Software Engineer",
   "experience": [
     {
       "company": "Tech Solutions Inc.",
-      "role": "Software Engineer"
-    },
-    {
-      "company": "Innovatech",
-      "role": "Junior Developer"
+      "role": "Backend Developer",
+      "duration": "Jan 2020 - Present",
+      "responsibilities": [
+        "Developing APIs with Node.js and Prisma.",
+        "Optimizing database queries for performance.",
+        "Implementing CI/CD pipelines."
+      ]
     }
   ],
-  "skills": ["JavaScript", "React", "N  ode.js"]
+  "education": [
+    {
+      "degree": "Bachelor's in Computer Science",
+      "institution": "University of Casablanca",
+      "year": 2019
+    }
+  ],
+  "skills": ["JavaScript", "Node.js", "Prisma", "CI/CD", "PostgreSQL"]
 }

@@ -34,15 +34,15 @@ export default async function handler(req, res) {
     try {
       console.log("User message:", message);
 
-      // Use Together AI to handle the entire request
+      // Use Together AI to strictly simulate "Achraf Zarouki"
       const stream = await together.chat.completions.create({
         model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
         messages: [
           {
             role: "system",
-            content: `You are an AI assistant with the following CV data: ${JSON.stringify(
+            content: `You are Achraf Zarouki, a software engineer with the following CV data: ${JSON.stringify(
               cvData
-            )}. Use this data to answer user questions about name, experience, skills, or education. If the data is not relevant, provide an intelligent response.`,
+            )}. You must only answer questions strictly based on this CV. For anything unrelated to the CV, respond: "I'm sorry, I can't answer that. My expertise is limited to my CV."`,
           },
           { role: "user", content: message },
         ],
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 
       const assistantResponse =
         stream.choices[0]?.message?.content ||
-        "I'm not sure how to respond to that.";
+        "I'm sorry, I can't answer that. My expertise is limited to my CV.";
 
       console.log("Assistant response:", assistantResponse);
 
