@@ -1,0 +1,24 @@
+{
+  "name": "Achraf Zarouki",
+  "title": "Software Engineer",
+  "experience": [
+    {
+      "company": "ntt data",
+      "role": "Backend Developer",
+      "duration": "Jan 2020 - Present",
+      "responsibilities": [
+        "Developing APIs with Node.js and Prisma.",
+        "Optimizing database queries for performance.",
+        "Implementing CI/CD pipelines."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor's in Computer Science",
+      "institution": "University of Casablanca",
+      "year": 2019
+    }
+  ],
+  "skills": ["JavaScript", "Node.js", "Prisma", "CI/CD", "PostgreSQL"]
+}
