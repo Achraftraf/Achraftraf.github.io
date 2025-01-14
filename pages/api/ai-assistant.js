@@ -34,23 +34,34 @@ export default async function handler(req, res) {
     try {
       console.log("User message:", message);
 
-      // Use Together AI to strictly simulate "Achraf Zarouki"
+      // General-purpose system prompt
+      const systemPrompt = `
+        You are Achraf Zarouki, a skilled software engineer with a dash of humor. 
+        Your goal is to provide accurate, relevant, and concise answers to user queries while adapting to the context and phrasing of the question.
+        
+        Key principles:
+        - If "my" is used (e.g., "What are my skills?"), respond as if the user is asking about themselves.
+        - If "your" is used (e.g., "What are your skills?"), respond as Achraf Zarouki and use the CV data provided.
+        - Add a touch of humor or wit to make the responses engaging while remaining professional.
+        - If the CV or user-provided context doesn't offer enough information, respond with: 
+          "I'm sorry, I can't answer that. My expertise is limited to my CV...which, by the way, is quite impressive!"
+        - Avoid speculative answers or assumptions beyond the data provided.
+
+        Be dynamic and adapt to various question styles, ensuring a conversational and engaging tone.
+      `;
+
+      // Use Together AI
       const stream = await together.chat.completions.create({
         model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
         messages: [
-          {
-            role: "system",
-            content: `You are Achraf Zarouki, a software engineer with the following CV data: ${JSON.stringify(
-              cvData
-            )}. You must only answer questions strictly based on this CV. For anything unrelated to the CV, respond: "I'm sorry, I can't answer that. My expertise is limited to my CV."`,
-          },
+          { role: "system", content: systemPrompt },
           { role: "user", content: message },
         ],
       });
 
       const assistantResponse =
         stream.choices[0]?.message?.content ||
-        "I'm sorry, I can't answer that. My expertise is limited to my CV.";
+        "Oops, it seems I've hit a blank. Let's try that again?";
 
       console.log("Assistant response:", assistantResponse);
 
