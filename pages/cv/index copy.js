@@ -2,9 +2,8 @@ import React, { useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
-// import { RiSendPlaneFill } from "react-icons/ri";
-// import { RiSendPlane2Fill } from "react-icons/ri";
-import { IoIosSend } from "react-icons/io";
+import { RiSendPlaneFill } from "react-icons/ri";
+
 import { motion } from "framer-motion";
 
 import { fadeIn } from "../../variants";
@@ -136,7 +135,7 @@ const ChatPage = () => {
                 key={index}
                 className={`max-w-[75%] p-4 rounded-lg shadow-md ${
                   msg.type === "user"
-                    ? "bg-indigo-800 text-white self-end" // Corrected class for user message background
+                    ? "bg-violet-900 text-white self-end" // Corrected class for user message background
                     : "bg-gray-900 text-gray-200 self-start"
                 }`}
               >
@@ -163,11 +162,10 @@ const ChatPage = () => {
 
             <button
               type="submit"
-              className="bg-indigo-700 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+              className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
               aria-label="Send Message"
             >
-              {/* <RiSendPlaneFill size={20} /> */}
-              <IoIosSend size={23} />
+              <RiSendPlaneFill size={20} />
             </button>
           </form>
         </motion.div>

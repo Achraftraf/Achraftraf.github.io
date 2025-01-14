@@ -1,24 +1,125 @@
 {
-  "name": "Achraf Zarouki",
-  "title": "Software Engineer",
+  "profile": {
+    "name": "Zarouki Achraf",
+    "title": "Developer at NTT DATA | AI Developer",
+    "contact": {
+      "phone": "06 42 27 69 48",
+      "email": "achrafzarouki20@gmail.com",
+      "github": "https://github.com/Achraftraf",
+      "linkedin": "https://linkedin.com/in/achraf-zarouki-058888244",
+      "portfolio": "https://www.zarouki-achraf.me"
+    }
+  },
+  "education": [
+    {
+      "degree": "Master's Degree, Computer Engineering",
+      "institution": "FS Tetouan",
+      "start_date": "09/2022",
+      "end_date": "07/2024"
+    },
+    {
+      "degree": "Bachelor's Degree, Mathematical and Computer Sciences",
+      "institution": "FS Tetouan",
+      "end_date": "07/2022"
+    },
+    {
+      "degree": "Baccalaureate, Mathematical Sciences A - French Option",
+      "institution": "High School Qualifying Moulay Abdellah Chrif",
+      "end_date": "2018"
+    },
+    {
+      "degree": "First Year Doctorate, Artificial Intelligence",
+      "institution": "FS Tetouan",
+      "start_date": "09/2024",
+      "end_date": "Current"
+    }
+  ],
   "experience": [
     {
-      "company": "ntt data",
-      "role": "Backend Developer",
-      "duration": "Jan 2020 - Present",
+      "position": "Developer",
+      "company": "NTT DATA",
+      "start_date": "27/03/2023",
+      "end_date": "Current",
       "responsibilities": [
-        "Developing APIs with Node.js and Prisma.",
-        "Optimizing database queries for performance.",
-        "Implementing CI/CD pipelines."
+        "Developed new products, tested, and fixed bugs for Spanish assurance project (ASISA) using Java and Microsoft SQL Server.",
+        "Collaborated with clients to ensure functional aspects work seamlessly.",
+        "Worked on an employee vacation management system (Horide) using Spring Boot, React, Node.js, Neo4j, and Redis."
+      ]
+    },
+    {
+      "position": "Full-Stack Developer",
+      "company": "Marokko Biz Real Estate",
+      "start_date": "11/2022",
+      "end_date": "12/2022",
+      "responsibilities": [
+        "Interned on an employee management website using JavaScript, MySQL, and PHP."
       ]
     }
   ],
-  "education": [
+  "projects": [
     {
-      "degree": "Bachelor's in Computer Science",
-      "institution": "University of Casablanca",
-      "year": 2019
+      "name": "FrenzyAI",
+      "start_date": "11/08/2024",
+      "end_date": "Current",
+      "description": "Developed a responsive web application with modern UI, AI-powered chat, light/dark mode, and memory capabilities.",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS",
+        "DaisyUI",
+        "Clerk",
+        "Supabase",
+        "Prisma",
+        "Together AI APIs"
+      ],
+      "website": "https://frenzyai.zarouki-achraf.me"
+    },
+    {
+      "name": "Personal Portfolio Website",
+      "start_date": "19/09/2023",
+      "end_date": "Current",
+      "description": "Built a portfolio website with interactive animations and modern design.",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS",
+        "Framer Motion",
+        "React Three Fiber"
+      ],
+      "website": "https://www.zarouki-achraf.me"
+    },
+    {
+      "name": "TrainingPortal",
+      "start_date": "19/01/2024",
+      "end_date": "04/03/2024",
+      "description": "A platform for training management with course scheduling and participant evaluation.",
+      "technologies": ["Spring Boot", "Angular", "MySQL", "Angular Material"]
     }
   ],
-  "skills": ["JavaScript", "Node.js", "Prisma", "CI/CD", "PostgreSQL"]
+  "skills": {
+    "programming_languages": ["Java", "C", "C#", "Python"],
+    "web_technologies": [
+      "Spring Boot",
+      "Next.js",
+      "React.js",
+      "Angular",
+      "PHP",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "databases": ["PostgreSQL", "MySQL", "Microsoft SQL Server", "Neo4j"],
+    "devops": ["Docker", "Git", "GitHub"],
+    "tools": ["Adobe Photoshop", "Canva", "MATLAB"],
+    "methodologies": ["Scrum", "Gantt Diagram"],
+    "certifications": [
+      "NextJS & OpenAI - 2024 Edition",
+      "Learn Spring Boot 3 in 100 Steps",
+      "Responsive Web Design"
+    ]
+  },
+  "languages": {
+    "Arabic": "Native",
+    "English": "Advanced",
+    "Spanish": "Intermediate",
+    "French": "Advanced"
+  }
 }
