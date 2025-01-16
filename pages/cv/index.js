@@ -1,72 +1,70 @@
 import React, { useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
-
-// import { RiSendPlaneFill } from "react-icons/ri";
-// import { RiSendPlane2Fill } from "react-icons/ri";
 import { IoIosSend } from "react-icons/io";
 import { motion } from "framer-motion";
 
-import { fadeIn } from "../../variants";
-
 const ChatPage = () => {
   const [activeTab, setActiveTab] = useState("chat1");
-
   const [tabs, setTabs] = useState([
     { id: "chat1", name: "Chat 1", messages: [] },
   ]);
-
   const [text, setText] = useState("");
-
   const [sessionId] = useState(uuidv4());
+  const [loading, setLoading] = useState(false);
 
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-  };
+  const handleTabChange = (tabId) => setActiveTab(tabId);
 
   const handleNewTab = () => {
     const newTabId = `chat${tabs.length + 1}`;
-
     setTabs([
       ...tabs,
-
       { id: newTabId, name: `Chat ${tabs.length + 1}`, messages: [] },
     ]);
-
     setActiveTab(newTabId);
   };
 
   const handleAIResponse = async (message, tabId) => {
+    setLoading(true);
+
     try {
       const response = await fetch("/api/ai-assistant", {
         method: "POST",
-
         headers: { "Content-Type": "application/json" },
-
-        body: JSON.stringify({
-          userId: sessionId,
-
-          message,
-        }),
+        body: JSON.stringify({ userId: sessionId, message }),
       });
 
       if (!response.ok) throw new Error("Failed to fetch AI response.");
 
       const { message: aiMessage } = await response.json();
 
+      // Simulate typing effect for AI response
+      let index = 0;
+      const typingSpeed = 20; // Adjust this value to make it faster
+      const typingEffect = setInterval(() => {
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) =>
+            tab.id === tabId
+              ? {
+                  ...tab,
+                  messages: [
+                    ...tab.messages.slice(0, -1), // Remove the last incomplete message
+                    { text: aiMessage.substring(0, index + 1), type: "bot" },
+                  ],
+                }
+              : tab
+          )
+        );
+
+        index++;
+        if (index >= aiMessage.length) clearInterval(typingEffect);
+      }, typingSpeed);
+
       setTabs((prevTabs) =>
         prevTabs.map((tab) =>
           tab.id === tabId
             ? {
                 ...tab,
-
-                messages: [
-                  ...tab.messages,
-
-                  { text: message, type: "user" },
-
-                  { text: aiMessage, type: "bot" },
-                ],
+                messages: [...tab.messages, { text: message, type: "user" }],
               }
             : tab
         )
@@ -75,15 +73,31 @@ const ChatPage = () => {
       setText("");
     } catch (error) {
       console.error("Error fetching AI response:", error);
+      setTabs((prevTabs) =>
+        prevTabs.map((tab) =>
+          tab.id === tabId
+            ? {
+                ...tab,
+                messages: [
+                  ...tab.messages,
+                  {
+                    text: "Sorry, something went wrong. Please try again.",
+                    type: "error",
+                  },
+                ],
+              }
+            : tab
+        )
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (text.trim()) {
-      handleAIResponse(text, activeTab);
-    }
+    if (text.trim() && !loading) handleAIResponse(text, activeTab);
+    setText("");
   };
 
   const currentTabMessages =
@@ -93,7 +107,6 @@ const ChatPage = () => {
     <div className="h-full bg-primary/30 py-10 flex items-center">
       <div className="container mx-auto bg-gray-900 rounded-lg shadow-md p-6">
         {/* Tabs */}
-
         <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
           <div className="flex gap-4">
             {tabs.map((tab) => (
@@ -110,67 +123,60 @@ const ChatPage = () => {
               </button>
             ))}
           </div>
-
           <button
             onClick={handleNewTab}
-            className="px-4 py-2 rounded-lg text-white bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 ease-in-out"
+            className="px-4 py-2 rounded-lg text-white bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 hover:opacity-90"
           >
-            + New Tab
+            New Chat
           </button>
         </div>
 
-        {/* Chat Section */}
-
-        <motion.div
-          variants={fadeIn("down", 0.3)}
-          initial="hidden"
-          animate="show"
-          exit="hidden"
-          className="bg-gray-800 rounded-lg p-4 flex flex-col h-[60vh]"
-        >
-          {/* Chat Messages */}
-
-          <div className="flex-grow overflow-y-auto space-y-4 p-3">
-            {currentTabMessages.map((msg, index) => (
-              <div
-                key={index}
-                className={`max-w-[75%] p-4 rounded-lg shadow-md ${
-                  msg.type === "user"
-                    ? "bg-indigo-800 text-white self-end" // Corrected class for user message background
-                    : "bg-gray-900 text-gray-200 self-start"
-                }`}
-              >
-                {msg.text}
-              </div>
-            ))}
-          </div>
-
-          {/* Input Area */}
-
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-center gap-2 border-t border-gray-700 pt-4"
-          >
-            <input
-              type="text"
-              placeholder="Type your message..."
-              className="flex-grow p-3 rounded-lg bg-gray-900 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring focus:ring-blue-500"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              required
-              aria-label="Message Input"
-            />
-
-            <button
-              type="submit"
-              className="bg-indigo-700 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-              aria-label="Send Message"
+        {/* Chat Messages */}
+        <div className="h-80 overflow-y-auto bg-gray-800 rounded-lg p-4 mb-4">
+          {currentTabMessages.map((msg, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mb-3 ${
+                msg.type === "user"
+                  ? "text-right text-blue-400"
+                  : msg.type === "error"
+                  ? "text-red-500"
+                  : "text-gray-200"
+              }`}
             >
-              {/* <RiSendPlaneFill size={20} /> */}
-              <IoIosSend size={23} />
-            </button>
-          </form>
-        </motion.div>
+              {msg.text}
+            </motion.div>
+          ))}
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-gray-500"
+            >
+              Typing...
+            </motion.div>
+          )}
+        </div>
+
+        {/* Input Field */}
+        <form onSubmit={handleSubmit} className="flex gap-4">
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="flex-grow px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type your message..."
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-lg text-white bg-primary hover:bg-primary/80 flex items-center"
+            disabled={loading}
+          >
+            <IoIosSend size={20} />
+          </button>
+        </form>
       </div>
     </div>
   );

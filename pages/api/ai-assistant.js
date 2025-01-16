@@ -14,6 +14,7 @@ const loadCVData = () => {
     return JSON.parse(fileContent);
   } catch (error) {
     console.error("Error loading CV data:", error);
+
     return null;
   }
 };
