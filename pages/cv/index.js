@@ -27,38 +27,7 @@ const ChatPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/ai-assistant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: sessionId, message }),
-      });
-
-      if (!response.ok) throw new Error("Failed to fetch AI response.");
-
-      const { message: aiMessage } = await response.json();
-
-      // Simulate typing effect for AI response
-      let index = 0;
-      const typingSpeed = 20; // Adjust this value to make it faster
-      const typingEffect = setInterval(() => {
-        setTabs((prevTabs) =>
-          prevTabs.map((tab) =>
-            tab.id === tabId
-              ? {
-                  ...tab,
-                  messages: [
-                    ...tab.messages.slice(0, -1), // Remove the last incomplete message
-                    { text: aiMessage.substring(0, index + 1), type: "bot" },
-                  ],
-                }
-              : tab
-          )
-        );
-
-        index++;
-        if (index >= aiMessage.length) clearInterval(typingEffect);
-      }, typingSpeed);
-
+      // Add user's message to the chat
       setTabs((prevTabs) =>
         prevTabs.map((tab) =>
           tab.id === tabId
@@ -70,7 +39,86 @@ const ChatPage = () => {
         )
       );
 
-      setText("");
+      // Remove any existing "Typing..." placeholder before adding a new one
+      setTabs((prevTabs) =>
+        prevTabs.map((tab) =>
+          tab.id === tabId
+            ? {
+                ...tab,
+                messages: tab.messages.filter(
+                  (msg) => msg.text !== "Typing..."
+                ), // Remove previous "Typing..."
+              }
+            : tab
+        )
+      );
+
+      // Add "Typing..." placeholder if not already present
+      setTabs((prevTabs) =>
+        prevTabs.map((tab) =>
+          tab.id === tabId
+            ? {
+                ...tab,
+                messages: [...tab.messages, { type: "bot-placeholder" }], // Add typing only if it's not already there
+              }
+            : tab
+        )
+      );
+
+      // Fetch the AI response
+      const response = await fetch("/api/ai-assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: sessionId, message }),
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch AI response.");
+
+      const { message: aiMessage } = await response.json();
+
+      // Typing effect
+      let index = 0;
+      const typingSpeed = 20; // Adjust for faster/slower typing effect
+      const typingEffect = setInterval(() => {
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) =>
+            tab.id === tabId
+              ? {
+                  ...tab,
+                  messages: tab.messages.map((msg) =>
+                    msg.type === "bot-placeholder"
+                      ? {
+                          text: aiMessage.substring(0, index + 1),
+                          type: "bot-placeholder",
+                        }
+                      : msg
+                  ),
+                }
+              : tab
+          )
+        );
+
+        index++;
+        if (index >= aiMessage.length) clearInterval(typingEffect);
+      }, typingSpeed);
+
+      // Replace placeholder with full response after typing
+      setTimeout(() => {
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) =>
+            tab.id === tabId
+              ? {
+                  ...tab,
+                  messages: tab.messages.map((msg) =>
+                    msg.type === "bot-placeholder"
+                      ? { text: aiMessage, type: "bot" }
+                      : msg
+                  ),
+                }
+              : tab
+          )
+        );
+      }, aiMessage.length * typingSpeed);
     } catch (error) {
       console.error("Error fetching AI response:", error);
       setTabs((prevTabs) =>
@@ -91,6 +139,7 @@ const ChatPage = () => {
       );
     } finally {
       setLoading(false);
+      setText(""); // Clear input after sending the message
     }
   };
 
