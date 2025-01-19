@@ -11,38 +11,49 @@ import {
   RxRocket,
   RxArrowTopRight,
 } from "react-icons/rx";
-import { RiDatabase2Line } from 'react-icons/ri';
-import { FaGraduationCap } from 'react-icons/fa';
+import { RiDatabase2Line } from "react-icons/ri";
+import { FaGraduationCap } from "react-icons/fa";
+import { SiOpenai } from "react-icons/si";
 
 // Initialize SwiperCore modules
 SwiperCore.use([Pagination]);
 
 const serviceData = [
   {
-    icon: <RxDesktop />,
+    icon: <SiOpenai aria-label="AI Integration" />,
+    title: "AI Integration",
+    description:
+      "Seamlessly integrate AI into websites for smarter, more dynamic user experiences.",
+  },
+  {
+    icon: <RxDesktop aria-label="Development" />,
     title: "Development",
-    description: "I develop websites and apps using Spring Boot, React, Next.js, and other languages.",
+    description:
+      "Build modern websites and apps using Spring Boot, React, Next.js, and more.",
   },
   {
-    icon: <RxCrop />,
-    title: "PPT",
-    description: "I can design a professional 3D PowerPoint presentation for any subject.",
+    icon: <RxCrop aria-label="PPT Design" />,
+    title: "PPT Design",
+    description:
+      "Create visually stunning and professional 3D PowerPoint presentations.",
   },
   {
-    icon: <RxPencil2 />,
+    icon: <RxPencil2 aria-label="Design" />,
     title: "Design",
-    description: "I specialize in designing logos, images, and digital files.",
-  },
- 
-  {
-    icon: <RiDatabase2Line />,
-    title: "Processing data",
-    description: "I adeptly use Talend and PowerBI for efficient data processing and analysis.",
+    description:
+      "Expert in logo, image, and digital file design. Also experienced in creating reports.",
   },
   {
-    icon: <FaGraduationCap />,
-    title: "teaching skills",
-    description: "I teach both soft and technical skills to help you land the job and grow.",
+    icon: <RiDatabase2Line aria-label="Data Processing" />,
+    title: "Data Processing",
+    description:
+      "Efficiently process and analyze data using Talend and PowerBI for actionable insights.",
+  },
+  {
+    icon: <FaGraduationCap aria-label="Teaching" />,
+    title: "Teaching Skills",
+    description:
+      "Empower your career with both technical and soft skills for growth and success.",
   },
 ];
 
@@ -55,19 +66,29 @@ const ServiceSlider = () => {
       }}
       freeMode={true}
       pagination={{ clickable: true }}
-      className="h-[240px] sm:h-[340px]"
+      loop={true}
+      centeredSlides={true}
+      className="h-[240px] sm:h-[340px] ml-[20px] sm:ml-[30px] lg:ml-[50px]" // Added left margin to shift slider to the right
     >
       {serviceData.map((item, index) => (
         <SwiperSlide key={index}>
-          <div className="inline-block bg-[rgba(65,47,123,0.15)] rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65, 169,0.15)] transition-all duration-300">
+          <div
+            className="inline-block bg-[rgba(65,47,123,0.15)] rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)] transition-all duration-300"
+            aria-labelledby={`service-title-${index}`}
+            role="region"
+          >
             <div className="text-4xl text-accent mb-4">{item.icon}</div>
             <div className="mb-8">
-              <div className="mb-2  text-lg">{item.title}</div>
+              <div
+                id={`service-title-${index}`}
+                className="mb-2 text-lg font-semibold"
+              >
+                {item.title}
+              </div>
               <p className="max-w-[350px] leading-normal">{item.description}</p>
             </div>
             <div className="text-3xl">
-              <RxArrowTopRight className='group-hover:rotate-45
-group-hover: text-accent transition-all duration-300' />
+              <RxArrowTopRight className="group-hover:rotate-45 group-hover:text-accent transition-all duration-300" />
             </div>
           </div>
         </SwiperSlide>
