@@ -1,42 +1,51 @@
 import React from 'react';
 import WorkSlider from '../../components/WorkSlider';
-import Bulb from '../../components/Bulb';
 import Circles from '../../components/Circles';
 import { motion } from 'framer-motion';
-import { fadeIn, stagger } from '../../variants'; // Import additional animation variants
+import { fadeIn, stagger } from '../../variants';
 
 const Work = () => {
   return (
     <motion.div
       variants={stagger}
-      initial='hidden'
-      animate='show'
-      exit='hidden'
-      className='h-full bg-primary/30 py-36 flex items-center'>
+      initial="hidden"
+      animate="show"
+      exit="hidden"
+      className="h-full bg-primary/30 py-20 flex items-center relative overflow-hidden">
+      {/* Background decorative circles */}
       <Circles />
-      <div className='container mx-auto'>
+
+      <div className="container mx-auto px-6 lg:px-12">
+        {/* Main content */}
         <motion.div
           variants={fadeIn('up', 0.2)}
-          className='flex flex-col xl:flex-row gap-x-8'>
+          className="flex flex-col xl:flex-row items-center xl:items-start gap-12">
+          {/* Text section */}
           <motion.div
-            className='text-center flex xl:w-[30vm] flex-col lg:text-left mb-4 xl:mb-0'>
-            <motion.h2 variants={fadeIn('up', 0.2)} className='h2 x-13 xl:mt-12'>
-              my Work<span className='text-accent'>.</span>
+            variants={fadeIn('up', 0.3)}
+            className="text-center xl:text-left xl:w-1/3">
+            <motion.h2
+              variants={fadeIn('up', 0.4)}
+              className="text-4xl font-bold leading-tight text-gray-900 dark:text-white">
+              My Work<span className="text-accent">.</span>
             </motion.h2>
             <motion.p
-              variants={fadeIn('up', 0.2)}
-              className='m-4 max-w-[400px] mx-auto lg:mx-0'>
-             
+              variants={fadeIn('up', 0.5)}
+              className="mt-6 text-lg text-gray-700 dark:text-gray-300">
+              Discover some of the projects I’ve worked on, showcasing my skills 
+              in design, development, and creativity. From innovative ideas to 
+              polished solutions, each project reflects my passion and expertise.
             </motion.p>
           </motion.div>
+
+          {/* Work Slider */}
           <motion.div
             variants={fadeIn('down', 0.6)}
-            className='w-full xl:max-w-[65%]'>
+            className="w-full xl:w-2/3">
             <WorkSlider />
           </motion.div>
         </motion.div>
       </div>
-      {/* <Bulb /> */}
     </motion.div>
   );
 };

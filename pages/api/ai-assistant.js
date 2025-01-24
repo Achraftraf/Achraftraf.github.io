@@ -26,6 +26,7 @@ const formatCVDataAsText = (cvData) => {
     cvData;
 
   let text = `PROFILE:\nName: ${profile.name}\nTitle: ${profile.title}\n`;
+  text += `Birthdate: ${profile.birthdate}\n`; // Added Birthdate here
   text += `Contact: Phone: ${profile.contact.phone}, Email: ${profile.contact.email}, GitHub: ${profile.contact.github}, LinkedIn: ${profile.contact.linkedin}, Portfolio: ${profile.contact.portfolio}\n\n`;
 
   text += "EDUCATION:\n";
