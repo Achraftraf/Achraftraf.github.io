@@ -2,6 +2,7 @@ import Image from "next/image";
 import ParticlesContainer from "../components/ParticlesContainer";
 import ProjectsBtn from "../components/ProjectsBtn";
 import Avatar from "../components/Avatar";
+import ChatBtn from "../components/ChatBtn"; // Import the updated ChatBtn component
 
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
@@ -10,7 +11,7 @@ const Home = () => {
   return (
     <div className="bg-primary/60 h-full">
       <div className="w-full h-full bg-gradient-to-r from-primary/10 via-black/30 to-black/10">
-        <div className="text-center flex flex-col justify-center xl:p-40 xl:text-left h-full container mx-auto">
+        <div className="text-center flex flex-col justify-center xl:p-5 xl:text-left h-full container mx-auto">
           <motion.h1
             variants={fadeIn("down", 0.2)}
             initial="hidden"
@@ -30,10 +31,12 @@ const Home = () => {
             className="max-w-sm xl:max-w-xl mx-auto xl:mx-0 mb-10 xl:mb-16"
           ></motion.p>
 
+          {/* Projects Button for mobile and small screens */}
           <div className="flex justify-center xl:hidden relative z-10">
-            <ProjectsBtn />
+            <ProjectsBtn className="scale-75" /> {/* Reduced size with scale */}
           </div>
 
+          {/* Projects Button for larger screens */}
           <motion.div
             variants={fadeIn("down", 0.4)}
             initial="hidden"
@@ -42,7 +45,24 @@ const Home = () => {
             className="hidden xl:flex"
             style={{ zIndex: 10 }}
           >
-            <ProjectsBtn />
+            <ProjectsBtn className="scale-90" /> {/* Slightly smaller size */}
+          </motion.div>
+
+          {/* Chat Button for mobile and small screens */}
+          <div className="flex justify-center xl:hidden relative z-10 mt-10">
+            <ChatBtn className="scale-75" /> {/* Reduced size with scale */}
+          </div>
+
+          {/* Chat Button for larger screens */}
+          <motion.div
+            variants={fadeIn("down", 0.4)}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            className="hidden xl:flex mt-10 xl:absolute xl:left-[22%] xl:bottom-[22%] xl:z-20 xl:scale-90"
+            style={{ zIndex: 10 }}
+          >
+            <ChatBtn className="scale-90" /> {/* Slightly smaller size */}
           </motion.div>
         </div>
       </div>

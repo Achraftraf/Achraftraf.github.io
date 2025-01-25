@@ -15,16 +15,16 @@ const workSlides = {
           title: "FrenzyAI",
           url: "https://frenzyai.zarouki-achraf.me/",
           description:
-            "A detailed description of Project 1, its features, and its purpose.",
+            "Unleash the chaos with The Chatbot That Doesn’t Care About Your Feelings—a snarky, sarcastic, and wildly unpredictable coding assistant. Whether you’re debugging, learning, or just desperate for some comic relief, this bot roasts your code, insults your skills, and somehow still helps you out (probably). Think you can handle its “Overlord of Syntax” attitude? Dive into the madness—if you dare. 💻🔥",
           techStack: ["Next.js", "Tailwind CSS", "openai", "Supabase"],
         },
         {
-          path: "/thumb2.jpg",
-          title: "Project 2",
-          url: "https://project2.com",
+          path: "/TrainingPortal.png",
+          title: "TrainingPortal",
+          url: "https://github.com/Achraftraf/TrainingPortal",
           description:
-            "An advanced analytics dashboard powered by Next.js and Chart.js.",
-          techStack: ["Next.js", "Chart.js", "TypeScript"],
+            "A Spring Boot and Angular-powered platform for streamlined training management. Admins can add courses, trainers, and companies, while scheduling sessions on a user-friendly calendar. Participants easily register, and evaluations are collected post-training. The system prioritizes simplicity, security, and intuitive design.",
+          techStack: ["Spring Boot ", "Angular", "TypeScript", "MySQL"],
         },
         {
           path: "/thumb3.jpg",
