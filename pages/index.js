@@ -2,7 +2,7 @@ import Image from "next/image";
 import ParticlesContainer from "../components/ParticlesContainer";
 import ProjectsBtn from "../components/ProjectsBtn";
 import Avatar from "../components/Avatar";
-import ChatBtn from "../components/ChatBtn"; // Import the updated ChatBtn component
+import ChatBtn from "../components/ChatBtn";
 
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
@@ -17,7 +17,7 @@ const Home = () => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="h1"
+            className="h1 mb-20"
           >
             Full-Stack <br />
             <span className="text-accent">Engineer.</span>
@@ -28,52 +28,30 @@ const Home = () => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="max-w-sm xl:max-w-xl mx-auto xl:mx-0 mb-10 xl:mb-16"
+            className="max-w-sm xl:max-w-xl mx-auto xl:mx-0 mb-20 xl:mb-20"
           ></motion.p>
 
-          {/* Projects Button for mobile and small screens */}
+          <div className="hidden xl:flex xl:justify-center xl:space-x-10 xl:absolute xl:bottom-20 xl:transform xl:translate-x-1/6 xl:z-20">
+            <ProjectsBtn className="scale-90" />
+
+            <ChatBtn className="scale-90" />
+          </div>
+
           <div className="flex justify-center xl:hidden relative z-10">
-            <ProjectsBtn className="scale-75" /> {/* Reduced size with scale */}
+            <ProjectsBtn className="scale-75" />
           </div>
 
-          {/* Projects Button for larger screens */}
-          <motion.div
-            variants={fadeIn("down", 0.4)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="hidden xl:flex"
-            style={{ zIndex: 10 }}
-          >
-            <ProjectsBtn className="scale-90" /> {/* Slightly smaller size */}
-          </motion.div>
-
-          {/* Chat Button for mobile and small screens */}
           <div className="flex justify-center xl:hidden relative z-10 mt-10">
-            <ChatBtn className="scale-75" /> {/* Reduced size with scale */}
+            <ChatBtn className="scale-75" />
           </div>
-
-          {/* Chat Button for larger screens */}
-          <motion.div
-            variants={fadeIn("down", 0.4)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="hidden xl:flex mt-10 xl:absolute xl:left-[22%] xl:bottom-[22%] xl:z-20 xl:scale-90"
-            style={{ zIndex: 10 }}
-          >
-            <ChatBtn className="scale-90" /> {/* Slightly smaller size */}
-          </motion.div>
         </div>
       </div>
 
       <div className="w-[1200px] h-full absolute right-0 bottom-0">
         <div className="bg-none xl:bg-explosion xl:bg-cover xl:bg-right xl:bg-no-repeat w-full h-full absolute mix-blend-color-dodge translate-z-0"></div>
 
-        {/* Particles */}
         <ParticlesContainer style={{ zIndex: 0 }} />
 
-        {/* Avatar */}
         <motion.div
           variants={fadeIn("up", 0.5)}
           initial="hidden"
