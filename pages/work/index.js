@@ -11,16 +11,16 @@ const Work = () => {
       initial="hidden"
       animate="show"
       exit="hidden"
-      className="h-full bg-primary/30 py-20 flex items-center relative overflow-hidden"
+      className="h-full bg-primary/30 pt-24 sm:pt-28 py-16 sm:py-20 flex items-center relative overflow-hidden"
     >
       {/* Background decorative circles */}
       <Circles />
 
-      <div className="container mx-auto px-9 lg:px-39">
+      <div className="container mx-auto px-6 lg:px-16">
         {/* Main content */}
         <motion.div
           variants={fadeIn("up", 0.2)}
-          className="flex flex-col xl:flex-row items-center xl:items-start gap-12"
+          className="flex flex-col xl:flex-row items-center xl:items-start gap-8 xl:gap-12"
         >
           {/* Text section */}
           <motion.div
@@ -29,13 +29,13 @@ const Work = () => {
           >
             <motion.h2
               variants={fadeIn("up", 0.4)}
-              className="text-5xl font-bold leading-tight text-gray-900 dark:text-white"
+              className="mt-16 text-4xl sm:text-5xl font-bold leading-tight text-gray-900 dark:text-white"
             >
               My Work<span className="text-accent">.</span>
             </motion.h2>
             <motion.p
               variants={fadeIn("up", 0.5)}
-              className="mt-6 text-lg text-gray-700 dark:text-gray-300"
+              className="mt-6 text-base sm:text-lg text-gray-700 dark:text-gray-300"
             >
               Discover some of the projects I’ve worked on, showcasing my skills
               in design, development, and creativity. From innovative ideas to
