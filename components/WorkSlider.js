@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 import "swiper/swiper-bundle.css";
@@ -76,7 +76,7 @@ const workSlides = {
           title: "E-commerce Store",
           url: "https://ecommerce-store.com",
           description:
-            "A full-stack e-commerce platform with a modern user experience.",
+            "A full-stack e-commerce platform with a modern user experience.  ",
           techStack: ["Vue.js", "Node.js", "MongoDB"],
         },
         // Add more projects...
@@ -87,15 +87,23 @@ const workSlides = {
 
 const WorkSlider = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [swiperKey, setSwiperKey] = useState(0);
 
   const closeDetails = () => setSelectedProject(null);
+
+  // Reset swiper when switching pages
+  useEffect(() => {
+    setSwiperKey((prevKey) => prevKey + 1); // Force re-render by updating key
+  }, []);
 
   return (
     <div>
       {/* Main Slider */}
       <Swiper
+        key={swiperKey} // Add a key prop to force a fresh render
         spaceBetween={20}
         pagination={{ clickable: true }}
+        loop={false} // Disable looping
         className="h-[300px] sm:h-[500px]"
       >
         {workSlides.slides.map((slide, slideIndex) => (
