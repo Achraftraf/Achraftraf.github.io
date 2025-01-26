@@ -34,7 +34,7 @@ const Home = () => {
           {/* For larger screens */}
           <div className="hidden xl:flex xl:justify-center xl:space-x-10 xl:items-center xl:absolute xl:bottom-20 xl:transform xl:translate-x-1/6 xl:z-20">
             <motion.div
-              variants={fadeIn("down", 0.5)} // Animate ProjectsBtn from below
+              variants={fadeIn("up", 0.5)} // Animate ProjectsBtn from below
               initial="hidden"
               animate="show"
               exit="hidden"
@@ -44,7 +44,7 @@ const Home = () => {
             </motion.div>
 
             <motion.div
-              variants={fadeIn("up", 0.6)} // Animate ChatBtn from above
+              variants={fadeIn("down", 0.6)} // Animate ChatBtn from above
               initial="hidden"
               animate="show"
               exit="hidden"
