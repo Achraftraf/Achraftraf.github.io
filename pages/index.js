@@ -31,18 +31,27 @@ const Home = () => {
             className="max-w-sm xl:max-w-xl mx-auto xl:mx-0 mb-20 xl:mb-20"
           ></motion.p>
 
-          <div className="hidden xl:flex xl:justify-center xl:space-x-10 xl:absolute xl:bottom-20 xl:transform xl:translate-x-1/6 xl:z-20">
-            <ProjectsBtn className="scale-90" />
+          {/* For larger screens */}
+          <div className="hidden xl:flex xl:justify-center xl:space-x-10 xl:items-center xl:absolute xl:bottom-20 xl:transform xl:translate-x-1/6 xl:z-20">
+            <motion.div
+              variants={fadeIn("down", 0.5)} // Animate ProjectsBtn from below
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              transition={{ duration: 1, ease: "easeInOut" }}
+            >
+              <ProjectsBtn className="scale-90" />
+            </motion.div>
 
-            <ChatBtn className="scale-90" />
-          </div>
-
-          <div className="flex justify-center xl:hidden relative z-10">
-            <ProjectsBtn className="scale-75" />
-          </div>
-
-          <div className="flex justify-center xl:hidden relative z-10 mt-10">
-            <ChatBtn className="scale-75" />
+            <motion.div
+              variants={fadeIn("up", 0.6)} // Animate ChatBtn from above
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }} // Delay for sequential fade-in
+            >
+              <ChatBtn className="scale-90" />
+            </motion.div>
           </div>
         </div>
       </div>
