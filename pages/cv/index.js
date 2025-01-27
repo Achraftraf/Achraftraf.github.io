@@ -134,18 +134,61 @@ const ChatPage = () => {
 
   // Animation Variants
   const pageVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, y: 50, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 1, ease: "easeOut" },
+    },
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, scale: 0.8, y: 20 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: 0.3 },
+    },
   };
 
   const tabsVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: 0.5, ease: "easeOut" },
+    },
   };
 
   const messageVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
+    hidden: { opacity: 0, x: -20, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
+  const inputVariants = {
+    hidden: { opacity: 0, x: -30, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: { duration: 0.5, delay: 0.7, ease: "easeOut" },
+    },
+  };
+
+  const sendButtonVariants = {
+    hidden: { opacity: 0, rotate: -180 },
+    visible: {
+      opacity: 1,
+      rotate: 0,
+      transition: { duration: 0.7, delay: 0.9, ease: "easeOut" },
+    },
   };
 
   return (
@@ -190,7 +233,12 @@ const ChatPage = () => {
         </motion.div>
 
         {/* Chat Messages */}
-        <div className="h-[300px] overflow-y-auto bg-gray-800 rounded-lg p-3 mb-4 flex-1 space-y-2">
+        <motion.div
+          className="h-[300px] overflow-y-auto bg-gray-800 rounded-lg p-3 mb-4 flex-1 space-y-2"
+          variants={messageVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {currentTabMessages.map((msg, index) => (
             <motion.div
               key={index}
@@ -217,24 +265,25 @@ const ChatPage = () => {
               Typing...
             </motion.div>
           )}
-        </div>
+        </motion.div>
 
-        {/* Input Field with Animation */}
+        {/* Animated Form */}
         <motion.form
           onSubmit={handleSubmit}
           className="flex items-center justify-between w-full gap-4"
+          variants={formVariants}
           initial="hidden"
           animate="visible"
-          variants={pageVariants}
         >
           {/* Input Field */}
-          <input
+          <motion.input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="flex-grow px-5 py-2 text-xs rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-transparent focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 ease-in-out shadow-md hover:shadow-lg focus:ring-offset-2 focus:ring-offset-gray-800"
             placeholder="chat with my cv..."
             disabled={loading}
+            variants={inputVariants}
           />
 
           {/* Send Button */}
@@ -242,6 +291,7 @@ const ChatPage = () => {
             type="submit"
             className="w-12 h-12 flex items-center justify-center rounded-full text-white bg-primary hover:bg-primary/90 disabled:bg-gray-600 transition-all duration-300 ease-in-out shadow-lg focus:outline-none"
             disabled={loading || !text.trim()}
+            variants={sendButtonVariants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
