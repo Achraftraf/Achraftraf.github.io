@@ -150,12 +150,12 @@ const ChatPage = () => {
 
   return (
     <motion.div
-      className="h-full bg-primary/30 py-10 flex items-center"
+      className="h-full bg-primary/30 py-8 flex justify-center items-center"
       variants={pageVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="container mx-auto bg-gray-900 rounded-lg shadow-md p-6">
+      <div className="w-[800px] h-[450px] ml-14 mr-40 bg-gray-900 rounded-lg shadow-md p-4 flex flex-col">
         {/* Tabs */}
         <motion.div
           className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4"
@@ -163,12 +163,12 @@ const ChatPage = () => {
           initial="hidden"
           animate="visible"
         >
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {tabs.map((tab) => (
               <motion.button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className={`px-4 py-2 rounded-t-lg ${
+                className={`px-3 py-1 rounded-t-lg text-xs ${
                   activeTab === tab.id
                     ? "bg-primary text-white font-bold"
                     : "bg-gray-700 text-gray-300 hover:bg-gray-600"
@@ -182,7 +182,7 @@ const ChatPage = () => {
           </div>
           <motion.button
             onClick={handleNewTab}
-            className="px-4 py-2 rounded-lg text-white bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 hover:opacity-90"
+            className="px-3 py-1 rounded-lg text-xs text-white bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 hover:opacity-90"
             whileHover={{ scale: 1.1 }}
           >
             New Chat
@@ -190,20 +190,20 @@ const ChatPage = () => {
         </motion.div>
 
         {/* Chat Messages */}
-        <div className="h-80 overflow-y-auto bg-gray-800 rounded-lg p-4 mb-4">
+        <div className="h-[300px] overflow-y-auto bg-gray-800 rounded-lg p-3 mb-4 flex-1 space-y-2">
           {currentTabMessages.map((msg, index) => (
             <motion.div
               key={index}
               variants={messageVariants}
               initial="hidden"
               animate="visible"
-              className={`mb-3 ${
+              className={`${
                 msg.type === "user"
                   ? "text-right text-blue-400"
                   : msg.type === "error"
                   ? "text-red-500"
                   : "text-gray-200"
-              }`}
+              } text-sm`}
             >
               {msg.text}
             </motion.div>
@@ -212,7 +212,7 @@ const ChatPage = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-gray-500"
+              className="text-gray-500 text-sm"
             >
               Typing...
             </motion.div>
@@ -222,25 +222,35 @@ const ChatPage = () => {
         {/* Input Field with Animation */}
         <motion.form
           onSubmit={handleSubmit}
-          className="flex gap-4"
+          className="flex items-center justify-between w-full gap-4"
           initial="hidden"
           animate="visible"
           variants={pageVariants}
         >
+          {/* Input Field */}
           <input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="flex-grow px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary"
-            placeholder="Type your message..."
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 rounded-lg text-white bg-primary hover:bg-primary/80 flex items-center"
+            className="flex-grow px-5 py-2 text-xs rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-transparent focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 ease-in-out shadow-md hover:shadow-lg focus:ring-offset-2 focus:ring-offset-gray-800"
+            placeholder="chat with my cv..."
             disabled={loading}
+          />
+
+          {/* Send Button */}
+          <motion.button
+            type="submit"
+            className="w-12 h-12 flex items-center justify-center rounded-full text-white bg-primary hover:bg-primary/90 disabled:bg-gray-600 transition-all duration-300 ease-in-out shadow-lg focus:outline-none"
+            disabled={loading || !text.trim()}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <IoIosSend size={20} />
-          </button>
+            {loading ? (
+              <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin" />
+            ) : (
+              <IoIosSend size={26} />
+            )}
+          </motion.button>
         </motion.form>
       </div>
     </motion.div>
