@@ -1,5 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
+import axios from "axios";
+import { ImSpinner9 } from "react-icons/im";
+import { motion } from "framer-motion";
 import {
   OrbitControls,
   useGLTF,
@@ -52,48 +55,109 @@ const Model = () => {
 };
 
 const Contact = () => {
-  const [formState, setFormState] = useState({
-    name: "",
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState({
+    isSubmitted: false,
+    isSubmitting: false,
+    isEmailChange: false,
+    info: {
+      isError: false,
+      msg: "",
+    },
+  });
+
+  const [data, setData] = useState({
+    senderName: "",
     email: "",
     message: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  const handleChange = useCallback((e) => {
+    const { value, name } = e.target;
+    setStatus((prev) => ({
+      ...prev,
+      isEmailChange: name === "email",
+    }));
+
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "", // Clear error for the current field
+    }));
+  }, []);
+
+  const setError = (field, message) => {
+    setErrors((prev) => ({ ...prev, [field]: message }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formState.name || !formState.email || !formState.message) {
-      setError("All fields are required");
-      return;
+  const handleServerResponse = (ok, msg) => {
+    setData({
+      senderName: "",
+      email: "",
+      message: "",
+    });
+    if (ok) {
+      setStatus((prev) => ({
+        ...prev,
+        isSubmitting: false,
+        isSubmitted: true,
+        info: { isError: false, msg: msg },
+      }));
+    } else {
+      setStatus((prev) => ({
+        ...prev,
+        isSubmitting: false,
+        info: { isError: true, msg: msg },
+      }));
     }
+  };
 
-    try {
-      const res = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
-      });
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      setErrors({});
 
-      if (res.ok) {
-        setSuccess("Your message has been sent successfully!");
-        setFormState({ name: "", email: "", message: "" });
-      } else {
-        const errorData = await res.json();
-        setError(
-          errorData.message ||
-            "There was an error sending your message. Please try again."
-        );
+      if (!data.senderName.trim()) {
+        setError("senderName", "Name is required");
       }
-    } catch (error) {
-      setError("There was an error sending your message. Please try again.");
-    }
-  };
+
+      if (!data.email.trim()) {
+        setError("email", "Email is required");
+      } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+        setError("email", "Invalid email format");
+        return;
+      }
+
+      if (!data.message.trim()) {
+        setError("message", "Reason cannot be empty");
+        return;
+      }
+
+      setStatus((prev) => ({
+        ...prev,
+        isSubmitting: true,
+        isEmailChange: false,
+      }));
+
+      axios({
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_FORM_URL}`,
+        data,
+      })
+        .then((_response) =>
+          handleServerResponse(
+            true,
+            "Your message has been successfully submitted to Me :)"
+          )
+        )
+        .catch((e) => handleServerResponse(false, e.response.data.error));
+    },
+    [data]
+  );
 
   return (
     <div
@@ -114,91 +178,68 @@ const Contact = () => {
         }}
       >
         <div style={{ flex: 1 }}>
-          <div
-            style={{
-              width: "100%",
-              padding: "20px",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-              borderRadius: "8px",
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="w-full max-w-lg mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 rounded-2xl shadow-lg border border-gray-700"
           >
-            <h1 style={{ textAlign: "center" }}>Contact Us</h1>
-            {error && (
-              <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-            )}
-            {success && (
-              <p style={{ color: "green", textAlign: "center" }}>{success}</p>
-            )}
-            <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="name">Name:</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formState.name}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    boxSizing: "border-box",
-                    color: "black",
-                  }}
-                />
-              </div>
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    boxSizing: "border-box",
-                    color: "black",
-                  }}
-                />
-              </div>
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="message">Message:</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formState.message}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    boxSizing: "border-box",
-                    color: "black",
-                  }}
-                ></textarea>
-              </div>
-              <button
+            <h2 className="text-xl font-bold text-center text-white mb-4">
+              Contact Us
+            </h2>
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              {errors.senderName && <RequiredBox error={errors.senderName} />}
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                placeholder="Your Name"
+                type="text"
+                value={data.senderName}
+                name="senderName"
+                onChange={handleChange}
+                required
+              />
+              {errors.email && <RequiredBox error={errors.email} />}
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                placeholder="e.g. example@gmail.com"
+                type="email"
+                value={data.email}
+                name="email"
+                onChange={handleChange}
+                required
+              />
+              {status.isEmailChange && (
+                <div className="text-sm text-blue-400">
+                  Please provide your real email so I can contact you back.
+                </div>
+              )}
+              {errors.message && <RequiredBox error={errors.message} />}
+              <motion.textarea
+                whileFocus={{ scale: 1.02 }}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-[8em] transition-all"
+                placeholder="Reason of contact?"
+                value={data.message}
+                name="message"
+                onChange={handleChange}
+                maxLength={500}
+                required
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="submit"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  backgroundColor: "#0070f3",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
+                className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-lg transition-all"
               >
-                Submit
-              </button>
+                {status.isSubmitting ? "Submitting..." : "Submit"}
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
         <div
           style={{
