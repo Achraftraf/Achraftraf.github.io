@@ -3,7 +3,7 @@ import path from "path";
 import Together from "together-ai";
 
 const together = new Together({
-  apiKey: process.env.TOGETHER_API_KEY, // Add your API key in .env.local
+  apiKey: process.env.TOGETHER_API_KEY,
 });
 
 // Load CV data from a JSON file
