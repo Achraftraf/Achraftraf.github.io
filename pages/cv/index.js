@@ -123,6 +123,47 @@ const ChatPage = () => {
     }
   };
 
+  const formatMessage = (text = "") => {
+    // Matches any URL but captures trailing punctuation (if any) in a separate group
+    const urlRegex = /(https?:\/\/[^\s,]+)([.,;!?]*)/g;
+
+    // Split text by URLs while keeping the URLs in the result
+    const parts = text.split(urlRegex);
+
+    // parts will include the text segments and then the URL match groups:
+    // [text, url, punctuation, text, url, punctuation, text, ...]
+    // We'll rebuild them accordingly.
+    const formatted = [];
+
+    for (let i = 0; i < parts.length; ) {
+      // If the current part is a URL, then parts[i] is the URL, parts[i+1] is punctuation.
+      if (parts[i] && /^https?:\/\//.test(parts[i])) {
+        const url = parts[i];
+        const punctuation = parts[i + 1] || "";
+        formatted.push(
+          <React.Fragment key={i}>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-300 hover:text-indigo-500 font-extrabold hover:underline transition-colors duration-300"
+            >
+              {url}
+            </a>
+            {punctuation}
+          </React.Fragment>
+        );
+        i += 2;
+      } else {
+        // Otherwise, it's a normal text segment.
+        formatted.push(<React.Fragment key={i}>{parts[i]}</React.Fragment>);
+        i += 1;
+      }
+    }
+
+    return formatted;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim() && !loading) handleAIResponse(text, activeTab);
@@ -253,7 +294,7 @@ const ChatPage = () => {
                   : "text-gray-200"
               } text-sm`}
             >
-              {msg.text}
+              <span>{formatMessage(msg.text)}</span>
             </motion.div>
           ))}
           {loading && (
