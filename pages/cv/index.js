@@ -114,8 +114,8 @@ const ChatPage = () => {
                   },
                 ],
               }
-            : tab
-        )
+              : tab
+          )
       );
     } finally {
       setLoading(false);
