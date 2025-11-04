@@ -5,11 +5,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  output: 'export', // For static site deployment on Netlify
+  // Commented out for development with API routes
+  // output: 'export', 
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
-  trailingSlash: true, // Helps with static hosting
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
