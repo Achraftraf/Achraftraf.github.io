@@ -152,7 +152,7 @@ Rules for answers:
       headers: {
         "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": process.env.YOUR_SITE_URL || "http://localhost:3000",
+        // "HTTP-Referer": process.env.YOUR_SITE_URL || "http://localhost:3000",
         "X-Title": process.env.YOUR_SITE_NAME || "CV Assistant",
       },
       body: JSON.stringify({
