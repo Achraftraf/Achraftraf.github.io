@@ -9,6 +9,7 @@ const TopLeftImg = () => {
         width={400}
         height={400}
         alt="Top Left Decoration"
+        unoptimized
       />
     </div>
   );
