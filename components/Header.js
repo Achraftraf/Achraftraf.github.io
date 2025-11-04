@@ -15,6 +15,7 @@ const Header = () => {
             height={48}
             alt=''
             priority={true}
+            unoptimized
             />
           </Link>
           {/* Socials */}
