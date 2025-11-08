@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { IoIosSend } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaUser } from "react-icons/fa";
+import Circles from "../../components/Circles";
 
 const ChatPage = () => {
   const [activeTab, setActiveTab] = useState("chat1");
@@ -136,8 +137,10 @@ const ChatPage = () => {
   };
 
   return (
+      <motion.div className="h-full bg-primary/30 py-20 flex items-center">
+      <Circles />
     <motion.div
-      className="min-h-screen w-full flex justify-center items-center bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden px-2 sm:px-4"
+      className="min-h-screen w-full flex justify-center items-center  from-gray-950 via-gray-900 to-black relative overflow-hidden px-2 sm:px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
@@ -297,6 +300,7 @@ const ChatPage = () => {
         </motion.form>
       </motion.div>
     </motion.div>
+      </motion.div>
   );
 };
 
