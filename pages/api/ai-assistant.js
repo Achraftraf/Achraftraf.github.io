@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import Groq from "groq-sdk";
 
 // Simple in-memory rate limiter with improved cleanup
 const rateLimitMap = new Map();
@@ -16,16 +17,16 @@ function rateLimit(identifier, limit = 10, windowMs = 60000) {
       rateLimitMap.set(key, recent);
     }
   }
-  
+
   const userRequests = rateLimitMap.get(identifier) || [];
   const recentRequests = userRequests.filter(time => now - time < windowMs);
-  
+
   if (recentRequests.length >= limit) {
     const oldestRequest = recentRequests[0];
     const timeUntilReset = Math.ceil((windowMs - (now - oldestRequest)) / 1000);
     return { allowed: false, retryAfter: timeUntilReset };
   }
-  
+
   recentRequests.push(now);
   rateLimitMap.set(identifier, recentRequests);
   return { allowed: true };
@@ -85,15 +86,21 @@ const formatCVDataAsText = (cvData) => {
   return text;
 };
 
-// Check for API key at module load
-if (!process.env.GOOGLE_GEMINI_API_KEY) {
-  console.error("⚠️  GOOGLE_GEMINI_API_KEY environment variable is not set!");
+// Check for API key at module load (only in development)
+if (!process.env.GROQ_API_KEY && process.env.NODE_ENV === 'development') {
+  console.warn("⚠️ GROQ_API_KEY environment variable is not set!");
 }
 
 const cvData = loadCVData();
 const formattedCVText = formatCVDataAsText(cvData);
 
-// API handler with Google Gemini
+// Initialize Groq client
+let groq;
+if (process.env.GROQ_API_KEY) {
+  groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+}
+
+// API handler with Groq SDK
 export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== "POST") {
@@ -117,7 +124,7 @@ export default async function handler(req, res) {
   }
 
   // Check if API key is configured
-  if (!process.env.GOOGLE_GEMINI_API_KEY) {
+  if (!process.env.GROQ_API_KEY || !groq) {
     return res.status(500).json({ 
       error: "API configuration error. Service is not properly configured." 
     });
@@ -126,11 +133,11 @@ export default async function handler(req, res) {
   // Rate limiting: 10 requests per minute per user
   const identifier = userId || req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'anonymous';
   const rateLimitResult = rateLimit(identifier, 10, 60000);
-  
+
   if (!rateLimitResult.allowed) {
-    return res.status(429).json({ 
+    return res.status(429).json({
       error: `Too many requests. Please wait ${rateLimitResult.retryAfter} seconds before trying again.`,
-      retryAfter: rateLimitResult.retryAfter 
+      retryAfter: rateLimitResult.retryAfter
     });
   }
 
@@ -138,142 +145,70 @@ export default async function handler(req, res) {
     console.log("User message:", message.substring(0, 100) + (message.length > 100 ? '...' : ''));
 
     // System prompt with CV data
-    const systemPrompt = `You are Achraf Zarouki, a skilled software engineer. Respond to user queries accurately and concisely. 
-Below is your professional CV:
+    const systemPrompt = `You are Achraf Zarouki, a skilled software engineer. Respond to user queries accurately and concisely. Below is your professional CV:
 
 ${formattedCVText}
 
 Rules for answers:
-
 - For personal questions like "What is your phone number?", use the CV data.
 - If the data is not available in the CV, respond: "Sorry, I can't answer that."
-- Do not include prefixes like "Assistant:" in your response.`;
+- Be conversational and helpful.`;
 
-    // Combine system prompt and user message for Gemini
-    const fullPrompt = `${systemPrompt}\n\nUser: ${message}\nAssistant:`;
-
-    // Use Google Gemini API
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${process.env.GOOGLE_GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    // Use Groq SDK to generate chat completion
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: systemPrompt
         },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: fullPrompt
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 200,
-            topP: 0.8,
-            topK: 40,
-          },
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            }
-          ]
-        }),
-      }
-    );
+        {
+          role: "user",
+          content: message
+        }
+      ],
+      model: "llama-3.3-70b-versatile", // Fast and capable model
+      temperature: 0.7,
+      max_tokens: 500,
+      top_p: 0.9,
+    });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error("Google Gemini API error:", response.status, errorData);
-      
-      // Handle rate limiting
-      if (response.status === 429) {
-        return res.status(429).json({ 
-          error: "AI service is temporarily busy. Please try again in a few seconds.",
-          retryAfter: 5
-        });
-      }
-      
-      // Handle authentication errors
-      if (response.status === 401 || response.status === 403) {
-        return res.status(500).json({ 
-          error: "API configuration error. Please check your API key." 
-        });
-      }
-      
-      // Handle quota exceeded
-      if (response.status === 400 && errorData.error?.message?.includes('quota')) {
-        return res.status(503).json({ 
-          error: "Service quota exceeded. Please try again later.",
-          retryAfter: 60
-        });
-      }
-      
-      throw new Error(`Google Gemini API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    
-    // Validate response structure
-    if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
-      console.error("Unexpected Gemini response format:", JSON.stringify(data, null, 2));
-      
-      // Check if content was blocked by safety filters
-      if (data.candidates?.[0]?.finishReason === 'SAFETY') {
-        return res.status(400).json({ 
-          error: "Your message was flagged by safety filters. Please rephrase your question." 
-        });
-      }
-      
-      return res.status(500).json({ 
-        error: "Received unexpected response from AI service." 
-      });
-    }
-    
-    // Extract and clean response from Gemini
-    let assistantResponse = data.candidates[0].content.parts[0].text;
-    
-    // Remove common prefixes that might appear
-    assistantResponse = assistantResponse
-      .replace(/^Assistant:\s*/i, '')
-      .replace(/^Response:\s*/i, '')
-      .trim();
-    
-    // Fallback if response is empty
-    if (!assistantResponse) {
-      assistantResponse = "I'm not sure how to respond to that. Could you rephrase your question?";
-    }
+    // Extract the response text
+    const assistantResponse = chatCompletion.choices[0]?.message?.content?.trim() || 
+      "I'm not sure how to respond to that. Could you rephrase your question?";
 
     console.log("Assistant response:", assistantResponse.substring(0, 100) + (assistantResponse.length > 100 ? '...' : ''));
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       message: assistantResponse,
-      tokensUsed: data.usageMetadata?.totalTokenCount || null
+      tokensUsed: chatCompletion.usage?.total_tokens || null
     });
+
   } catch (error) {
     console.error("Error processing AI request:", error);
-    
+
+    // Handle specific error types
+    if (error.message?.includes('quota') || error.message?.includes('429') || error.status === 429) {
+      return res.status(429).json({
+        error: "AI service quota exceeded. Please try again later.",
+        retryAfter: 60
+      });
+    }
+
+    if (error.message?.includes('API key') || error.message?.includes('401') || error.status === 401) {
+      return res.status(500).json({
+        error: "API configuration error. Please check your API key."
+      });
+    }
+
     // Handle network errors
-    if (error.message.includes('fetch') || error.code === 'ECONNREFUSED') {
-      return res.status(503).json({ 
+    if (error.message?.includes('fetch') || error.code === 'ECONNREFUSED') {
+      return res.status(503).json({
         error: "Unable to connect to AI service. Please try again later.",
         retryAfter: 10
       });
     }
-    
-    return res.status(500).json({ 
+
+    return res.status(500).json({
       error: "Failed to process the AI request.",
       details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
