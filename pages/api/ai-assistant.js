@@ -5,6 +5,58 @@ import Groq from "groq-sdk";
 // Simple in-memory rate limiter with improved cleanup
 const rateLimitMap = new Map();
 
+// In-memory conversation history storage per user
+const conversationHistories = new Map();
+
+// Cleanup old conversations (older than 30 minutes of inactivity)
+function cleanupOldConversations() {
+  const now = Date.now();
+  const thirtyMinutes = 30 * 60 * 1000;
+  
+  for (const [userId, data] of conversationHistories.entries()) {
+    if (now - data.lastActivity > thirtyMinutes) {
+      conversationHistories.delete(userId);
+    }
+  }
+}
+
+// Get or create conversation history for a user
+function getConversationHistory(userId) {
+  cleanupOldConversations();
+  
+  if (!conversationHistories.has(userId)) {
+    conversationHistories.set(userId, {
+      messages: [],
+      lastActivity: Date.now()
+    });
+  }
+  
+  const conversation = conversationHistories.get(userId);
+  conversation.lastActivity = Date.now();
+  
+  return conversation.messages;
+}
+
+// Add message to conversation history
+function addToHistory(userId, role, content) {
+  const history = getConversationHistory(userId);
+  
+  history.push({ role, content });
+  
+  // Keep only last 20 messages (10 exchanges) to avoid token limits
+  if (history.length > 20) {
+    // Keep system message at the beginning if it exists
+    const hasSystemMessage = history[0]?.role === 'system';
+    if (hasSystemMessage) {
+      const systemMessage = history[0];
+      const recentMessages = history.slice(-19);
+      conversationHistories.get(userId).messages = [systemMessage, ...recentMessages];
+    } else {
+      conversationHistories.get(userId).messages = history.slice(-20);
+    }
+  }
+}
+
 function rateLimit(identifier, limit = 10, windowMs = 60000) {
   const now = Date.now();
   
@@ -51,6 +103,7 @@ const formatCVDataAsText = (cvData) => {
   const { profile, education, experience, projects, skills, languages } = cvData;
 
   let text = `PROFILE:\nName: ${profile.name}\nTitle: ${profile.title}\n`;
+  text += `Location: ${profile.location || "N/A"}\n`;
   text += `Birthdate: ${profile.birthdate}\n`;
   text += `Contact: Phone: ${profile.contact.phone}, Email: ${profile.contact.email}, GitHub: ${profile.contact.github}, LinkedIn: ${profile.contact.linkedin}, Portfolio: ${profile.contact.portfolio}\n\n`;
 
@@ -144,28 +197,48 @@ export default async function handler(req, res) {
   try {
     console.log("User message:", message.substring(0, 100) + (message.length > 100 ? '...' : ''));
 
+    // Get conversation history for this user
+    const history = getConversationHistory(userId);
+
     // System prompt with CV data
-    const systemPrompt = `You are Achraf Zarouki, a skilled software engineer. Respond to user queries accurately and concisely. Below is your professional CV:
+    const systemPrompt = `You are Achraf Zarouki, a skilled software engineer and AI developer. Respond to user queries accurately and concisely based on your professional CV data.
 
 ${formattedCVText}
 
 Rules for answers:
-- For personal questions like "What is your phone number?", use the CV data.
-- If the data is not available in the CV, respond: "Sorry, I can't answer that."
-- Be conversational and helpful.`;
+- Answer questions directly and naturally, as if you're having a conversation.
+- For personal questions (phone number, email, experience, projects, skills), use the CV data above.
+- If the data is not available in the CV, respond politely: "I don't have that information in my CV."
+- Be conversational, professional, and helpful.
+- Remember previous messages in this conversation and refer back to them when relevant.
+- Keep responses concise and focused on the question asked.
+- DO NOT repeat your previous responses. Each answer should be unique.`;
+
+    // Build messages array with history
+    const messages = [];
+    
+    // Add system message if history is empty
+    if (history.length === 0) {
+      messages.push({
+        role: "system",
+        content: systemPrompt
+      });
+      // Add to history immediately to avoid re-adding
+      addToHistory(userId, "system", systemPrompt);
+    } else {
+      // Add all existing history
+      messages.push(...history);
+    }
+    
+    // Add current user message
+    messages.push({
+      role: "user",
+      content: message
+    });
 
     // Use Groq SDK to generate chat completion
     const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt
-        },
-        {
-          role: "user",
-          content: message
-        }
-      ],
+      messages: messages,
       model: "llama-3.3-70b-versatile", // Fast and capable model
       temperature: 0.7,
       max_tokens: 500,
@@ -177,6 +250,10 @@ Rules for answers:
       "I'm not sure how to respond to that. Could you rephrase your question?";
 
     console.log("Assistant response:", assistantResponse.substring(0, 100) + (assistantResponse.length > 100 ? '...' : ''));
+
+    // Add only the new messages to history (not system message again)
+    addToHistory(userId, "user", message);
+    addToHistory(userId, "assistant", assistantResponse);
 
     return res.status(200).json({
       message: assistantResponse,

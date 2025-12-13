@@ -6,6 +6,7 @@ import {
   HiRectangleGroup,
   HiChatBubbleBottomCenterText,
   HiEnvelope,
+  HiArrowTrendingUp,
 } from "react-icons/hi2";
 
 // nav data
@@ -14,16 +15,9 @@ export const navData = [
   { name: "about", path: "/about", icon: <HiUser /> },
   { name: "services", path: "/services", icon: <HiRectangleGroup /> },
   { name: "work", path: "/work", icon: <HiViewColumns /> },
-  {
-    name: "CV",
-    path: "/cv",
-    icon: <HiChatBubbleBottomCenterText />,
-  },
-  {
-    name: "contact",
-    path: "/contact",
-    icon: <HiEnvelope />,
-  },
+  { name: "CV", path: "/cv", icon: <HiChatBubbleBottomCenterText />,},
+  { name: "contact", path: "/contact", icon: <HiEnvelope />,},
+  { name: "GitHub Dashboard", path: "/MyGitHub", icon: <HiArrowTrendingUp />,},
 ];
 
 import Link from "next/link";
