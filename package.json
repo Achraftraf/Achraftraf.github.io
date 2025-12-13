@@ -21,6 +21,7 @@
     "axios": "^1.7.9",
     "framer-motion": "^10.12.16",
     "groq-sdk": "^0.37.0",
+    "lucide-react": "^0.561.0",
     "next": "^13.4.3",
     "nodemailer": "^6.9.13",
     "react": "^18.2.0",

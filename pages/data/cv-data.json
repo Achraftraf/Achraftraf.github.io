@@ -1,17 +1,24 @@
 {
   "profile": {
     "name": "Zarouki Achraf",
-    "title": "Developer at NTT DATA | AI Developer",
+    "title": "Software Developer at NTT DATA | AI Developer",
     "birthdate": "2000-02-01",
+    "location": "Tetouan, Morocco",
     "contact": {
       "phone": "06 42 27 69 48",
       "email": "achrafzarouki20@gmail.com",
       "github": "https://github.com/Achraftraf",
       "linkedin": "https://linkedin.com/in/achraf-zarouki-058888244",
-      "portfolio": "https://www.zarouki-achraf.me"
+      "portfolio": "https://achrafzarouki.netlify.app"
     }
   },
   "education": [
+    {
+      "degree": "Second Year Doctorate, Artificial Intelligence",
+      "institution": "FS Tetouan",
+      "start_date": "09/2024",
+      "end_date": "Current"
+    },
     {
       "degree": "Master's Degree, Computer Engineering",
       "institution": "FS Tetouan",
@@ -21,18 +28,14 @@
     {
       "degree": "Bachelor's Degree, Mathematical and Computer Sciences",
       "institution": "FS Tetouan",
+      "start_date": null,
       "end_date": "07/2022"
     },
     {
       "degree": "Baccalaureate, Mathematical Sciences A - French Option",
       "institution": "High School Qualifying Moulay Abdellah Chrif",
+      "start_date": null,
       "end_date": "2018"
-    },
-    {
-      "degree": "First Year Doctorate, Artificial Intelligence",
-      "institution": "FS Tetouan",
-      "start_date": "09/2024",
-      "end_date": "Current"
     }
   ],
   "experience": [
@@ -42,83 +45,148 @@
       "start_date": "27/03/2023",
       "end_date": "Current",
       "responsibilities": [
-        "Developed new products, tested, and fixed bugs for Spanish assurance project (ASISA) using Java and Microsoft SQL Server.",
-        "Collaborated with clients to ensure functional aspects work seamlessly.",
-        "Worked on an employee vacation management system (Horide) using Spring Boot, React, Node.js, Neo4j, and Redis."
+        "Working on ASISA: a major Spanish assurance project using Java and Microsoft SQL Server. Develop new products, test them, and fix bugs. Collaborate with clients to ensure all functional aspects work seamlessly.",
+        "Worked on Horide: an employee vacation management system using Spring Boot, React, Node.js, Neo4j, and Redis. Developed new features, fixed bugs, and improved existing functionalities.",
+        "Working on SAKAI: an internal AI-powered HR tool for selecting optimal CVs, built with Spring Boot, Angular, and PostgreSQL. Implemented security using Spring Security and Keycloak, and supported Docker deployment.",
+        "Completed intensive JEE and Java training focused on Spring Boot, Struts, and Hibernate frameworks.",
+        "Received soft and hard skills training along with Spanish language courses."
       ]
     },
     {
-      "position": "Full-Stack Developer",
-      "company": "Marokko Biz Real Estate",
-      "start_date": "11/2022",
-      "end_date": "12/2022",
+      "position": "Master's Internship",
+      "company": "NTT DATA",
+      "start_date": "02/01/2024",
+      "end_date": "08/07/2024",
       "responsibilities": [
-        "Interned on an employee management website using JavaScript, MySQL, and PHP."
+        "Completed master's degree internship while working as a developer.",
+        "Gained extensive experience in Java development and project management."
+      ]
+    },
+    {
+      "position": "Freelancer",
+      "company": "Self-Employed",
+      "start_date": "03/08/2024",
+      "end_date": "Current",
+      "responsibilities": [
+        "Built Steadfast Haven: a custom web application for an American client using Next.js with dynamic CMS and SMTP-integrated contact form.",
+        "Developed Funny Time for Colleagues: a real-time multiplayer game app using Next.js, Supabase, and AI integration for team events.",
+        "Created various client projects using modern web technologies."
+      ]
+    },
+    {
+      "position": "Teaching Assistant - Algorithmics",
+      "company": "FS Tetouan",
+      "start_date": "09/2024",
+      "end_date": "Current",
+      "responsibilities": [
+        "Teaching algorithmics and programming fundamentals to students.",
+        "Instructing programming languages including Python, C, and Java.",
+        "Designing course materials and exercises for algorithm development.",
+        "Mentoring students in problem-solving and computational thinking."
       ]
     }
   ],
   "projects": [
     {
+      "name": "Givora",
+      "start_date": "15/05/2024",
+      "end_date": "29/05/2024",
+      "description": "Built this app for a hackathon using Next.js, integrating AI-powered APIs. The web app includes authentication via Clerk and helps users get gift suggestions using AI based on provided details.",
+      "technologies": ["Next.js", "Clerk", "AI APIs"],
+      "website": "https://givora-five.vercel.app/"
+    },
+    {
+      "name": "Steadfast Haven",
+      "start_date": "03/08/2024",
+      "end_date": "Current",
+      "description": "Built a custom web application for an American client with dynamic CMS for easy content management and a contact form integrated with SMTP for secure email communication.",
+      "technologies": ["Next.js", "CMS", "SMTP"],
+      "website": null
+    },
+    {
+      "name": "Funny Time for Colleagues",
+      "start_date": "14/06/2024",
+      "end_date": "Current",
+      "description": "Developing a game app leveraging a polling concept using Supabase as the real-time database, allowing multiple players to interact seamlessly in real time. Integrated AI features to enhance gameplay.",
+      "technologies": ["Next.js", "Supabase", "AI Integration"],
+      "website": "https://funny-time-for-collegues-asisa-iyot.vercel.app/"
+    },
+    {
       "name": "FrenzyAI",
       "start_date": "11/08/2024",
       "end_date": "Current",
-      "description": "Developed a responsive web application with modern UI, AI-powered chat, light/dark mode, and memory capabilities.",
+      "description": "Developed a responsive web application with modern UI, AI-powered chat feature for code generation and topic assistance. Includes light/dark modes and memory capabilities for reviewing past interactions.",
       "technologies": [
         "Next.js",
         "Tailwind CSS",
         "DaisyUI",
         "Clerk",
         "Supabase",
-        "Prisma",
+        "PostgreSQL",
+        "Prisma ORM",
         "Together AI APIs"
       ],
-      "website": "https://frenzyai.zarouki-achraf.me"
+      "website": "https://frenzyai.zarouki-achraf.me/"
     },
     {
       "name": "Personal Portfolio Website",
       "start_date": "19/09/2023",
       "end_date": "Current",
-      "description": "Built a portfolio website with interactive animations and modern design.",
+      "description": "Developed a personal portfolio website featuring modern UI, interactive animations, contact form, and AI integration in the CV section. Deployed on GitHub Pages with a free domain via GitHub Student Pack.",
       "technologies": [
         "Next.js",
         "Tailwind CSS",
         "Framer Motion",
-        "React Three Fiber"
+        "React Three Fiber",
+        "OpenAI API"
       ],
-      "website": "https://www.zarouki-achraf.me"
-    },
-    {
-      "name": "TrainingPortal",
-      "start_date": "19/01/2024",
-      "end_date": "04/03/2024",
-      "description": "A platform for training management with course scheduling and participant evaluation.",
-      "technologies": ["Spring Boot", "Angular", "MySQL", "Angular Material"]
+      "website": "https://www.zarouki-achraf.me/"
     }
   ],
   "skills": {
     "programming_languages": ["Java", "C", "C#", "Python"],
     "web_technologies": [
+      "Sisnet",
       "Spring Boot",
       "Next.js",
       "React.js",
       "Angular",
+      "JEE",
+      "Hibernate",
+      "Prisma",
+      "Struts",
       "PHP",
+      "Pyramid",
+      "Flask",
+      "Django",
       "JavaScript",
+      "Bootstrap",
       "HTML",
       "CSS"
     ],
-    "databases": ["PostgreSQL", "MySQL", "Microsoft SQL Server", "Neo4j"],
+    "databases": ["Neo4j", "PostgreSQL", "MySQL", "Microsoft SQL Server"],
     "devops": ["Docker", "Git", "GitHub"],
-    "tools": ["Adobe Photoshop", "Canva", "MATLAB"],
-    "methodologies": ["Scrum", "Gantt Diagram"],
+    "tools": [
+      "Talend",
+      "UML",
+      "Adobe Photoshop",
+      "Canva",
+      "VirtualBox",
+      "MATLAB",
+      "Cisco Routers and Switches"
+    ],
+    "methodologies": ["Scrum", "Gantt Diagram", "Agile"],
     "certifications": [
       "NextJS & OpenAI - 2024 Edition",
-      "Learn Spring Boot 3 in 100 Steps",
+      "Learn Spring Boot 3 in 100 Steps - No 1 Java Framework",
+      "[BI-ETL]: Mini projet pratique sur Talend DI",
+      "Emotional Intelligence at Work: Learn from Your Emotions",
+      "Data Integration & ETL with Talend Open Studio Zero to Hero",
       "Responsive Web Design"
     ]
   },
   "languages": {
-    "Arabic": "Native",
+    "Arabic": "Native language",
     "English": "Advanced",
     "Spanish": "Intermediate",
     "French": "Advanced"
