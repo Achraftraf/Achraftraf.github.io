@@ -12,7 +12,7 @@ const ThemeSwitcher = () => {
   };
 
   return (
-<div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+<div className="fixed top-1/3 left-[43%] transform -translate-x-1/2 -translate-y-1/2 z-50">
       {/* Main Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
@@ -34,7 +34,7 @@ const ThemeSwitcher = () => {
           className="absolute inset-0 rounded-full"
           style={{
             background: `conic-gradient(from 0deg, ${themes[currentTheme].glow}dd, transparent 120deg, ${themes[currentTheme].glow}dd 240deg, transparent)`,
-            opacity: 0.7
+            opacity: 0.6
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -114,14 +114,14 @@ const ThemeSwitcher = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute left-20 top-0 flex flex-row gap-3"
+            className="absolute left-2 top-0 flex flex-row gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             {Object.entries(themes).map(([key, theme], index) => {
               const angle = (index * 360) / Object.entries(themes).length;
-              const radius = 140;
+              const radius = 103;
               const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
               const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
               

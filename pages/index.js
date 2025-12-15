@@ -27,7 +27,7 @@ const Home = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="text-center flex flex-col justify-center xl:p-5 xl:text-left h-full container mx-auto">
-            {/* Animated Title */}
+            {/* Animated Title with Interactive Effects */}
             <AnimatePresence mode="wait">
               <motion.h1
                 key={`title-${currentTheme}`}
@@ -38,8 +38,36 @@ const Home = () => {
                 className="h1 mb-20"
                 transition={{ duration: 0.5 }}
               >
-                Full-Stack <br />
-                <span className={theme.accent}>Engineer.</span>
+                <motion.span
+                  className="inline-block"
+                  whileHover={{
+                    scale: 1.1,
+                    rotate: [0, -5, 5, -5, 0],
+                    textShadow: `0 0 30px ${theme.glow}`,
+                    transition: { duration: 0.5 }
+                  }}
+                >
+                  Full-Stack
+                </motion.span>{" "}
+                <br />
+                <motion.span
+                  className={`inline-block ${theme.accent}`}
+                  animate={{
+                    textShadow: [
+                      `0 0 20px ${theme.glow}`,
+                      `0 0 40px ${theme.glow}`,
+                      `0 0 20px ${theme.glow}`,
+                    ],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  whileHover={{
+                    scale: 1.15,
+                    rotate: [0, 5, -5, 5, 0],
+                    transition: { duration: 0.5 }
+                  }}
+                >
+                  Engineer.
+                </motion.span>
               </motion.h1>
             </AnimatePresence>
 
@@ -50,12 +78,15 @@ const Home = () => {
                 variants={fadeIn("down", 0.3)}
                 initial="hidden"
                 animate="show"
-                exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
+                exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
                 className={`max-w-sm xl:max-w-xl mx-auto xl:mx-0 mb-20 xl:mb-20 ${theme.textColor}`}
                 transition={{ duration: 0.5, delay: 0.1 }}
-              ></motion.p>
+              >
+                {/* You can add your description text here */}
+              </motion.p>
             </AnimatePresence>
 
+            {/* For larger screens */}
             <div className="hidden xl:flex xl:justify-center xl:space-x-10 xl:items-center xl:absolute xl:bottom-20 xl:transform xl:translate-x-1/6 xl:z-20">
               <motion.div
                 variants={fadeIn("up", 0.5)}
@@ -82,6 +113,7 @@ const Home = () => {
       </AnimatePresence>
 
       <div className="w-[1200px] h-full absolute right-0 bottom-0">
+        {/* Background explosion effect */}
         <div className="bg-none xl:bg-explosion xl:bg-cover xl:bg-right xl:bg-no-repeat w-full h-full absolute mix-blend-color-dodge translate-z-0">
           {/* Animated Glow Overlay */}
           <AnimatePresence mode="wait">
