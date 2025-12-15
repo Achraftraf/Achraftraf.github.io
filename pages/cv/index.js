@@ -4,6 +4,9 @@ import { IoIosSend } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaUser } from "react-icons/fa";
 import Circles from "../../components/Circles";
+import FlyingRocket from "../../components/flying-rocket";
+import SpaceAdventureGame from "../../components/space-advanture";
+
 
 const ChatPage = () => {
   const [activeTab, setActiveTab] = useState("chat1");
@@ -12,6 +15,16 @@ const ChatPage = () => {
   const [sessionId] = useState(uuidv4());
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const [play, setPlay] = useState(false);
+  const [showRocket, setShowRocket] = useState(true);
+
+  const handleCloseGame = () => {
+    setPlay(false);
+    // Reset the rocket after a short delay
+    setTimeout(() => {
+      setShowRocket(true);
+    }, 500);
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -138,6 +151,15 @@ const ChatPage = () => {
 
   return (
       <motion.div className="h-full bg-primary/30 py-20 flex items-center">
+        {showRocket && (
+                <FlyingRocket
+                  onCatch={() => {
+                    setShowRocket(false);
+                    setPlay(true);
+                  }}
+                />
+              )}
+              {play && <SpaceAdventureGame handleClose={handleCloseGame} />}
       <Circles />
     <motion.div
       className="min-h-screen w-full flex justify-center items-center  from-gray-950 via-gray-900 to-black relative overflow-hidden px-2 sm:px-4"
