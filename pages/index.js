@@ -19,7 +19,7 @@ const Home = () => {
       {/* Animated Background Gradient */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={`bg-${currentTheme}`}
+          key={`bg-yellow-5`}
           className={`w-full h-full bg-gradient-to-r ${theme.gradient}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

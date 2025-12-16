@@ -45,8 +45,8 @@ export const themes = {
     glowOverlay: 'bg-purple-500/10',
     textColor: 'text-purple-100/80',
     avatar: '/av-purple.png',
-    size: { maxWidth: '737px', maxHeight: '678px'},
-    position: { bottom: '0', lgBottom: '300px', lgRight: '10%' }
+    size: { maxWidth: '737px', maxHeight: '530px'},
+    position: { bottom: '0', lgBottom: '300px', lgRight: '-14%' }
   },
   emerald: {
     name: 'Emerald Assassin',
@@ -90,8 +90,8 @@ export const themes = {
     glowOverlay: 'bg-orange-500/10',
     textColor: 'text-orange-100/80',
     avatar: '/av-phoenix.png', // Make sure you have this image
-    size: { maxWidth: '720px', maxHeight: '620px'},
-    position: { bottom: '0', lgBottom: '300px', lgRight: '7%' }
+    size: { maxWidth: '700px', maxHeight: '500px'},
+    position: { bottom: '0', lgBottom: '300px', lgRight: '-10%' }
   }
 };
 
