@@ -16,8 +16,8 @@ export const themes = {
     textColor: 'text-red-100/80',
     avatar: '/av-red.png',
     size: { maxWidth: '737px', maxHeight: '678px'},
-    position: {  bottom: '0',  lgBottom: '300px',lgRight: '5%' }
-    },
+    position: { bottom: '0', lgBottom: '300px', lgRight: '5%' }
+  },
   midnight: {
     name: 'Midnight Steel',
     primary: '#1e40af',
@@ -31,8 +31,7 @@ export const themes = {
     textColor: 'text-blue-100/80',
     avatar: '/av-blue.png',
     size: { maxWidth: '570px', maxHeight: '500px'},
-    position: {  bottom: '0',  lgBottom: '300px',lgRight: '1%' }
-    
+    position: { bottom: '0', lgBottom: '300px', lgRight: '1%' }
   },
   shadow: {
     name: 'Shadow Realm',
@@ -47,45 +46,53 @@ export const themes = {
     textColor: 'text-purple-100/80',
     avatar: '/av-purple.png',
     size: { maxWidth: '737px', maxHeight: '678px'},
-    position: {  bottom: '0',  lgBottom: '300px',lgRight: '10%' }
+    position: { bottom: '0', lgBottom: '300px', lgRight: '10%' }
   },
   emerald: {
     name: 'Emerald Assassin',
     primary: '#059669',
     secondary: '#064e3b',
     glow: '#34d399',
-    icon: '🗡️',
+    icon: '🏹',
     gradient: 'from-green-950/40 via-green-900/30 to-black/20',
     accent: 'text-green-400',
     glowClass: 'bg-green-500/20',
     glowOverlay: 'bg-green-500/10',
     textColor: 'text-green-100/80',
     avatar: '/av-green.png',
-    size: { maxWidth: '737px', maxHeight: '678px'},
-    position: {  bottom: '0',  lgBottom: '300px',lgRight: '10%' }
+    size: { maxWidth: '700px', maxHeight: '500px'},
+    position: { bottom: '0', lgBottom: '300px', lgRight: '-10%' }
   },
-   obsidian: {
-      name: 'Obsidian Void',
-      primary: '#18181b',
-      secondary: '#09090b',
-      accent: '#27272a',
-      glow: '#71717a',
-      icon: '⚔️',
-      gradient: 'linear-gradient(135deg, #000000 0%, #27272a 50%, #3f3f46 100%)',
-      size: { maxWidth: '737px', maxHeight: '678px'},
-      position: {  bottom: '0',  lgBottom: '300px',lgRight: '10%' }
-    },
-    phoenix: {
-      name: 'Phoenix Fire',
-      primary: '#ea580c',
-      secondary: '#7c2d12',
-      accent: '#9a3412',
-      glow: '#fb923c',
-      icon: '⚡',
-      gradient: 'linear-gradient(135deg, #431407 0%, #c2410c 50%, #ea580c 100%)',
-      size: { maxWidth: '737px', maxHeight: '678px'},
-      position: {  bottom: '0',  lgBottom: '300px',lgRight: '10%' }
-    }
+  obsidian: {
+    name: 'Obsidian Void',
+    primary: '#18181b',
+    secondary: '#09090b',
+    glow: '#71717a',
+    icon: '⚔️',
+    gradient: 'from-zinc-950/40 via-zinc-900/30 to-black/20',
+    accent: 'text-zinc-400',
+    glowClass: 'bg-zinc-500/20',
+    glowOverlay: 'bg-zinc-500/10',
+    textColor: 'text-zinc-100/80',
+    avatar: '/av-obsidian.png', // Make sure you have this image
+    size: { maxWidth: '700px', maxHeight: '567px'},
+    position: { bottom: '0', lgBottom: '300px', lgRight: '-10%' }
+  },
+  phoenix: {
+    name: 'Phoenix Fire',
+    primary: '#ea580c',
+    secondary: '#7c2d12',
+    glow: '#fb923c',
+    icon: '⚡',
+    gradient: 'from-orange-950/40 via-orange-900/30 to-black/20',
+    accent: 'text-orange-400',
+    glowClass: 'bg-orange-500/20',
+    glowOverlay: 'bg-orange-500/10',
+    textColor: 'text-orange-100/80',
+    avatar: '/av-phoenix.png', // Make sure you have this image
+    size: { maxWidth: '720px', maxHeight: '620px'},
+    position: { bottom: '0', lgBottom: '300px', lgRight: '7%' }
+  }
 };
 
 export const ThemeProvider = ({ children }) => {
@@ -108,4 +115,4 @@ export const useTheme = () => {
     throw new Error('useTheme must be used within ThemeProvider');
   }
   return context;
-};  
+};
