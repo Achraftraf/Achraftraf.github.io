@@ -12,37 +12,73 @@ const Avatar = () => {
           key={currentTheme}
           initial={{ 
             opacity: 0,
-            scale: 0.6,
-            rotateY: -90,
-            rotateZ: -25,
-            x: 200,
-            y: -50,
-            filter: 'blur(40px) brightness(0.2) saturate(0.2) hue-rotate(45deg)'
+            scale: 0.85,
+            rotateX: 25,
+            rotateY: -35,
+            rotateZ: -8,
+            x: 0,
+            y: 180,
+            z: -100,
+            filter: 'blur(25px) brightness(0.4) saturate(0.4) contrast(0.8) hue-rotate(20deg)'
           }}
           animate={{ 
             opacity: 1,
             scale: 1,
+            rotateX: 0,
             rotateY: 0,
             rotateZ: 0,
             x: 0,
             y: 0,
-            filter: 'blur(0px) brightness(1) saturate(1) hue-rotate(0deg)'
+            z: 0,
+            filter: 'blur(0px) brightness(1) saturate(1) contrast(1) hue-rotate(0deg)'
           }}
           exit={{ 
             opacity: 0,
-            scale: 0.5,
-            rotateY: 90,
-            rotateZ: 25,
-            x: -200,
-            y: 50,
-            filter: 'blur(45px) brightness(0.1) saturate(0.1) hue-rotate(-45deg)'
+            scale: 0.85,
+            rotateX: -25,
+            rotateY: 35,
+            rotateZ: 8,
+            x: 0,
+            y: 180,
+            z: -100,
+            filter: 'blur(25px) brightness(0.4) saturate(0.4) contrast(0.8) hue-rotate(-20deg)'
           }}
           transition={{ 
             duration: 1.4,
-            ease: [0.16, 1, 0.3, 1],
-            scale: { duration: 1.5, ease: [0.34, 1.56, 0.64, 1] },
-            rotateY: { duration: 1.6, ease: [0.19, 1, 0.22, 1] },
-            filter: { duration: 1.2 }
+            ease: [0.19, 1.0, 0.22, 1.0],
+            scale: { 
+              duration: 1.5, 
+              ease: [0.34, 1.56, 0.64, 1],
+              times: [0, 0.6, 1]
+            },
+            rotateX: { 
+              duration: 1.4, 
+              ease: [0.25, 0.1, 0.25, 1.0] 
+            },
+            rotateY: { 
+              duration: 1.4, 
+              ease: [0.25, 0.1, 0.25, 1.0] 
+            },
+            rotateZ: { 
+              duration: 1.5, 
+              ease: [0.33, 0.0, 0.2, 1.0] 
+            },
+            filter: { 
+              duration: 1.3,
+              ease: [0.4, 0.0, 0.2, 1.0]
+            },
+            y: {
+              duration: 1.4,
+              ease: [0.33, 0.0, 0.1, 1.0]
+            },
+            z: {
+              duration: 1.4,
+              ease: [0.4, 0.0, 0.2, 1.0]
+            },
+            opacity: {
+              duration: 1.2,
+              ease: [0.4, 0.0, 0.6, 1.0]
+            }
           }}
           className="relative"
           style={{ 
@@ -62,6 +98,10 @@ const Avatar = () => {
             animate={{
               opacity: [0, 0.8, 0.6, 0.8],
               scale: [0.5, 1.25, 1.1, 1.25]
+            }}
+            exit={{
+              opacity: [0.8, 0.6, 0],
+              scale: [1.25, 0.5, 0.3]
             }}
             transition={{
               duration: 5,
@@ -85,6 +125,12 @@ const Avatar = () => {
               x: [-15, 15, -8, 15],
               y: [-8, 8, -4, 8]
             }}
+            exit={{
+              opacity: [0.75, 0.5, 0],
+              scale: [1.18, 0.8, 0.5],
+              x: [15, 0, -15],
+              y: [8, 0, -8]
+            }}
             transition={{
               duration: 6,
               repeat: Infinity,
@@ -104,6 +150,10 @@ const Avatar = () => {
               opacity: [0.6, 1, 0.7, 1],
               scale: [0.9, 1.15, 1, 1.15]
             }}
+            exit={{
+              opacity: [1, 0.7, 0],
+              scale: [1.15, 0.9, 0.6]
+            }}
             transition={{
               duration: 4,
               repeat: Infinity,
@@ -119,6 +169,10 @@ const Avatar = () => {
             animate={{ 
               opacity: [0, 1.5, 0.9, 0],
               scale: [0.3, 2, 1.6, 3]
+            }}
+            exit={{
+              opacity: [0.9, 1.5, 0],
+              scale: [1.6, 2, 3.5]
             }}
             transition={{ 
               duration: 1.8,
@@ -158,6 +212,11 @@ const Avatar = () => {
                 scale: [0.4, 1.8 + i * 0.35, 2.8 + i * 0.45],
                 opacity: [0, 0.95, 0.7, 0],
                 rotate: [-180, 90 + i * 45, 360 + i * 90]
+              }}
+              exit={{
+                scale: [2.8 + i * 0.45, 1.8 + i * 0.35, 0.4],
+                opacity: [0.7, 0.95, 0],
+                rotate: [360 + i * 90, 90 + i * 45, -180]
               }}
               transition={{
                 duration: 2.2,
@@ -216,6 +275,24 @@ const Avatar = () => {
                   ],
                   scale: [0, 1.4, 1.8, 1.3, 0]
                 }}
+                exit={{
+                  opacity: [0.7, 0.9, 1, 0],
+                  x: [
+                    Math.cos((angle + 80) * Math.PI / 180) * radius * 0.3,
+                    Math.cos((angle + 40) * Math.PI / 180) * radius * 0.7,
+                    Math.cos(angle * Math.PI / 180) * radius,
+                    Math.cos((angle - 30) * Math.PI / 180) * radius * 0.4,
+                    0
+                  ],
+                  y: [
+                    Math.sin((angle + 80) * Math.PI / 180) * radius * 0.3,
+                    Math.sin((angle + 40) * Math.PI / 180) * radius * 0.7,
+                    Math.sin(angle * Math.PI / 180) * radius,
+                    Math.sin((angle - 30) * Math.PI / 180) * radius * 0.4,
+                    0
+                  ],
+                  scale: [1.3, 1.8, 1.4, 0]
+                }}
                 transition={{
                   duration: duration,
                   delay: delay,
@@ -258,6 +335,13 @@ const Avatar = () => {
                   scale: [0, 1.8, 1.5, 0],
                   rotate: [0, 360]
                 }}
+                exit={{
+                  opacity: [0.75, 0.95, 0],
+                  x: [Math.cos(helixAngle * Math.PI / 180) * helixRadius, 0],
+                  y: [Math.sin(helixAngle * Math.PI / 180) * helixRadius + helixHeight, 0],
+                  scale: [1.5, 1.8, 0],
+                  rotate: [360, 720]
+                }}
                 transition={{
                   duration: 2,
                   delay: i * 0.04,
@@ -297,6 +381,12 @@ const Avatar = () => {
                   scaleY: [0, 1.5, 1, 0],
                   x: Math.cos(boltAngle * Math.PI / 180) * boltDistance,
                   y: Math.sin(boltAngle * Math.PI / 180) * boltDistance
+                }}
+                exit={{
+                  opacity: [0.8, 1, 0],
+                  scaleY: [1, 1.5, 0],
+                  x: [Math.cos(boltAngle * Math.PI / 180) * boltDistance, 0],
+                  y: [Math.sin(boltAngle * Math.PI / 180) * boltDistance, 0]
                 }}
                 transition={{
                   duration: 1,
@@ -341,6 +431,12 @@ const Avatar = () => {
                   y: [cloudY * 0.1, cloudY * 0.8, cloudY * 1.2],
                   scale: [0, 1.5, 1, 0]
                 }}
+                exit={{
+                  opacity: [0.7, 0.9, 0],
+                  x: [cloudX * 1.2, cloudX * 0.8, cloudX * 0.1],
+                  y: [cloudY * 1.2, cloudY * 0.8, cloudY * 0.1],
+                  scale: [1, 1.5, 0]
+                }}
                 transition={{
                   duration: cloudDuration,
                   delay: cloudDelay,
@@ -372,6 +468,10 @@ const Avatar = () => {
               opacity: [0, 0.7, 0.5, 0],
               rotate: [0, 180, 360]
             }}
+            exit={{
+              opacity: [0.5, 0.7, 0],
+              rotate: [360, 540, 720]
+            }}
             transition={{
               duration: 2,
               ease: "easeInOut",
@@ -382,30 +482,55 @@ const Avatar = () => {
           {/* Main image with perfect transition */}
           <motion.div
             initial={{ 
-              filter: 'saturate(0.2) brightness(0.4) contrast(0.7) hue-rotate(30deg)',
-              scale: 0.9,
+              filter: 'saturate(0.3) brightness(0.5) contrast(0.8) hue-rotate(25deg) drop-shadow(0 0 0px transparent)',
+              scale: 0.92,
               opacity: 0
             }}
             animate={{ 
-              filter: 'saturate(1) brightness(1) contrast(1) hue-rotate(0deg)',
-              scale: 1,
-              opacity: 1
+              filter: [
+                'saturate(0.3) brightness(0.5) contrast(0.8) hue-rotate(25deg) drop-shadow(0 0 0px transparent)',
+                'saturate(1.1) brightness(1.05) contrast(1.05) hue-rotate(0deg) drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                'saturate(1) brightness(1) contrast(1) hue-rotate(0deg) drop-shadow(0 15px 35px rgba(0,0,0,0.2))'
+              ],
+              scale: [0.92, 1.02, 1],
+              opacity: [0, 1, 1],
+              y: [0, -5, 0]
+            }}
+            exit={{
+              filter: 'saturate(0.3) brightness(0.5) contrast(0.8) hue-rotate(-25deg) drop-shadow(0 0 0px transparent)',
+              scale: 0.92,
+              opacity: 0,
+              y: 10
             }}
             transition={{ 
-              duration: 1.3,
-              delay: 0.3,
-              ease: [0.16, 1, 0.3, 1]
+              duration: 1.5,
+              delay: 0.2,
+              ease: [0.19, 1.0, 0.22, 1.0],
+              times: [0, 0.6, 1]
             }}
             className="relative z-10"
           >
-            <Image 
-              src={theme.avatar} 
-              width={737} 
-              height={678} 
-              alt="" 
-              className='translate-z-0 w-full h-full' 
-              unoptimized 
-            />
+            <motion.div
+              animate={{
+                y: [0, -8, 0],
+                rotateZ: [0, 1, 0, -1, 0]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                times: [0, 0.5, 1]
+              }}
+            >
+              <Image 
+                src={theme.avatar} 
+                width={737} 
+                height={678} 
+                alt="" 
+                className='translate-z-0 w-full h-full' 
+                unoptimized 
+              />
+            </motion.div>
           </motion.div>
 
           {/* Ethereal atmosphere */}
@@ -419,6 +544,10 @@ const Avatar = () => {
             animate={{
               opacity: [0.3, 0.6, 0.4, 0.6],
               scale: [1.2, 1.6, 1.35, 1.6]
+            }}
+            exit={{
+              opacity: [0.6, 0.4, 0],
+              scale: [1.6, 1.2, 0.8]
             }}
             transition={{
               duration: 7,
