@@ -627,7 +627,7 @@ export default function SpaceAdventureGame({ handleClose }: SpaceAdventureGamePr
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
