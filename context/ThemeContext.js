@@ -75,7 +75,7 @@ export const themes = {
     glowOverlay: 'bg-zinc-500/10',
     textColor: 'text-zinc-100/80',
     avatar: '/av-obsidian.png', // Make sure you have this image
-    size: { maxWidth: '700px', maxHeight: '567px'},
+    size: { maxWidth: '700px', maxHeight: '540px'},
     position: { bottom: '0', lgBottom: '300px', lgRight: '-10%' }
   },
   phoenix: {
