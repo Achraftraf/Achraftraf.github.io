@@ -14,6 +14,8 @@ import {
   X
 } from 'lucide-react';
 
+import { ParticleBackground } from '../../components/particle-background';
+
 const Services = () => {
   const router = useRouter();
   const [selectedService, setSelectedService] = useState(null);
@@ -96,30 +98,8 @@ const Services = () => {
   };
 
   return (
-    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pr-32 overflow-hidden flex flex-col justify-center">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full bg-white/20"
-            initial={{
-              x: Math.random() * 1000,
-              y: Math.random() * 1000,
-              opacity: Math.random() * 0.5
-            }}
-            animate={{
-              y: [null, Math.random() * 1000],
-              opacity: [null, 0, Math.random() * 0.5]
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        ))}
-      </div>
+    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pr-32 overflow-hidden flex flex-col justify-center relative">
+      <ParticleBackground />
 
       <div className="w-full max-w-5xl mx-auto relative z-10 flex flex-col justify-center h-full lg:pl-10">
         {/* Header */}
