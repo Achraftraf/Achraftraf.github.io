@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain,
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 const Services = () => {
+  const router = useRouter();
   const [selectedService, setSelectedService] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -244,6 +246,7 @@ const Services = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => router.push('/contact')}
             className="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white px-5 py-2 rounded-full font-medium transition-all duration-300 text-sm shadow-lg shadow-accent/25 hover:shadow-accent/40"
           >
             <span>Start a Project</span>
@@ -356,7 +359,10 @@ const Services = () => {
                     >
                       Close
                     </button>
-                    <button className="px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white transition-all font-medium shadow-lg flex items-center justify-center gap-2 text-sm">
+                    <button
+                      onClick={() => router.push('/contact')}
+                      className="px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white transition-all font-medium shadow-lg flex items-center justify-center gap-5 text-sm"
+                    >
                       <span>Get Started</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
