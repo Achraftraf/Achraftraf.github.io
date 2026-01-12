@@ -77,22 +77,29 @@ const Services = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2
+        staggerChildren: 0.15,
+        delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: {
+      opacity: 0,
+      y: 30,
+      scale: 0.8,
+      rotateX: -15
+    },
     show: {
       opacity: 1,
       y: 0,
       scale: 1,
+      rotateX: 0,
       transition: {
         type: "spring",
-        stiffness: 100,
-        damping: 15
+        stiffness: 200,
+        damping: 12,
+        mass: 0.8
       }
     }
   };
