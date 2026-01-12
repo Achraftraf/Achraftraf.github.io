@@ -1,13 +1,27 @@
 "use client"
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Star, Heart, Zap, Shield, Target, Flame, Sparkles } from 'lucide-react';
+
+declare module 'react' {
+  interface StyleHTMLAttributes<T> extends React.HTMLAttributes<T> {
+    jsx?: boolean;
+    global?: boolean;
+  }
+}
 
 type GameItem = { id: number; x: number; y: number; speed: number; size: number; };
 type Enemy = { id: number; x: number; y: number; speed: number; size: number; type: 'basic' | 'fast' | 'tank' | 'boss'; hp: number; maxHp: number; };
 type Bullet = { id: number; x: number; y: number; damage: number; };
 type PowerUp = { id: number; x: number; y: number; type: 'shield' | 'rapidfire' | 'multishot' | 'score2x'; speed: number; };
 type Particle = { id: number; x: number; y: number; vx: number; vy: number; life: number; color: string; size: number; };
+
+// Performance constants
+const MAX_PARTICLES = 200;
+const MAX_ENEMIES = 25;
+const MAX_BULLETS = 50;
+const MAX_POWERUPS = 10;
+const MAX_STARS = 100;
 
 export default function SpaceAdventureGame({ handleClose }: { handleClose?: () => void }) {
   const [score, setScore] = useState(0);
@@ -59,8 +73,17 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
     return () => clearTimeout(timer);
   }, []);
 
-  const createFX = (x: number, y: number, color: string, n = 20, speed = 4) => {
-    for (let i = 0; i < n; i++) {
+  const createFX = useCallback((x: number, y: number, color: string, n = 12, speed = 4) => {
+    // Enforce particle limit
+    const currentParticles = entities.current.particles.length;
+    if (currentParticles >= MAX_PARTICLES) {
+      // Remove oldest particles to make room
+      entities.current.particles.splice(0, Math.min(n, currentParticles - MAX_PARTICLES + n));
+    }
+
+    const particlesToCreate = Math.min(n, MAX_PARTICLES - entities.current.particles.length);
+
+    for (let i = 0; i < particlesToCreate; i++) {
       const angle = Math.random() * Math.PI * 2;
       const spd = 0.5 + Math.random() * speed;
       entities.current.particles.push({
@@ -68,10 +91,10 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
         vx: Math.cos(angle) * spd,
         vy: Math.sin(angle) * spd,
         life: 1.0, color,
-        size: 1.5 + Math.random() * 4
+        size: 1.5 + Math.random() * 3.5
       });
     }
-  };
+  }, []);
 
   const addCombo = () => {
     setCombo(c => {
@@ -84,7 +107,10 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
     comboTimeout.current = setTimeout(() => setCombo(0), 2000);
   };
 
-  const spawnEnemy = () => {
+  const spawnEnemy = useCallback(() => {
+    // Enforce enemy limit
+    if (entities.current.enemies.length >= MAX_ENEMIES) return;
+
     const diff = entities.current.difficulty;
     const rand = Math.random();
     let type: Enemy['type'] = 'basic';
@@ -120,9 +146,12 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
       hp,
       maxHp: hp
     });
-  };
+  }, [score, wave]);
 
-  const spawnPowerUp = (x: number, y: number) => {
+  const spawnPowerUp = useCallback((x: number, y: number) => {
+    // Enforce powerup limit
+    if (entities.current.powerUps.length >= MAX_POWERUPS) return;
+
     if (Math.random() < 0.35) {
       const types: PowerUp['type'][] = ['shield', 'rapidfire', 'multishot', 'score2x'];
       entities.current.powerUps.push({
@@ -132,10 +161,11 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
         speed: 0.6
       });
     }
-  };
+  }, []);
 
-  const activatePowerUp = (type: PowerUp['type']) => {
-    createFX(player.current.x, player.current.y, '#fbbf24', 35, 6);
+  const activatePowerUp = useCallback((type: PowerUp['type']) => {
+    // Reduced particles for power-up pickup
+    createFX(player.current.x, player.current.y, '#fbbf24', 15, 5);
 
     switch (type) {
       case 'shield':
@@ -155,13 +185,17 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
         setTimeout(() => setScoreMultiplier(1), 18000);
         break;
     }
-  };
+  }, [createFX]);
 
-  const shootBullet = () => {
+  const shootBullet = useCallback(() => {
     const now = Date.now();
     const fireRate = rapidFire ? 80 : 220;
 
     if (now - entities.current.lastShot < fireRate) return;
+
+    // Enforce bullet limit
+    if (entities.current.bullets.length >= MAX_BULLETS) return;
+
     entities.current.lastShot = now;
 
     const damage = multiShot ? 2 : 1;
@@ -176,8 +210,9 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
       entities.current.bullets.push({ id: Math.random(), x: player.current.x, y: player.current.y - 5, damage });
     }
 
-    createFX(player.current.x, player.current.y - 5, '#22d3ee', 6, 2);
-  };
+    // Reduced particles for shooting
+    createFX(player.current.x, player.current.y - 5, '#22d3ee', 4, 2);
+  }, [rapidFire, multiShot, createFX]);
 
   const update = useCallback((time: number) => {
     const dt = entities.current.lastTime ? (time - entities.current.lastTime) / 16.67 : 1;
@@ -222,8 +257,8 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
       p.life -= 0.018 * dt;
     });
 
-    // Spawn stars
-    if (Math.random() < 0.3) {
+    // Spawn stars with limit
+    if (state.stars.length < MAX_STARS && Math.random() < 0.3) {
       state.stars.push({
         id: Math.random(),
         x: Math.random() * 100,
@@ -239,10 +274,11 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
 
     // Collision: Player vs Enemies
     state.enemies = state.enemies.filter(e => {
-      if (Math.hypot(player.current.x - e.x, player.current.y - e.y) < (e.size + 24) / 3.5) {
+      const dist = Math.hypot(player.current.x - e.x, player.current.y - e.y);
+      if (dist < (e.size + 24) / 3.5) {
         if (hasShield) {
           setHasShield(false);
-          createFX(e.x, e.y, '#3b82f6', 30, 5);
+          createFX(e.x, e.y, '#3b82f6', 12, 4);
           setScore(s => s + 15 * scoreMultiplier);
           return false;
         } else {
@@ -252,7 +288,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
           });
           setShake(s => s + 1);
           setTimeout(() => setShake(s => Math.max(0, s - 1)), 250);
-          createFX(e.x, e.y, '#ff4d4d', 35, 6);
+          createFX(e.x, e.y, '#ff4d4d', 15, 5);
           setCombo(0);
           return false;
         }
@@ -260,11 +296,12 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
       return e.y < 110;
     });
 
-    // Collision: Bullets vs Enemies
+    // Collision: Bullets vs Enemies (optimized)
     state.bullets = state.bullets.filter(b => {
       let hit = false;
       state.enemies = state.enemies.filter(e => {
-        if (Math.hypot(b.x - e.x, b.y - e.y) < e.size / 2 + 4) {
+        const dist = Math.hypot(b.x - e.x, b.y - e.y);
+        if (dist < e.size / 2 + 4) {
           hit = true;
           e.hp -= b.damage;
 
@@ -272,7 +309,10 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
             const points = e.type === 'boss' ? 500 : e.type === 'tank' ? 100 : e.type === 'fast' ? 75 : 50;
             setScore(s => s + points * scoreMultiplier);
             addCombo();
-            createFX(e.x, e.y, e.type === 'boss' ? '#fbbf24' : e.type === 'tank' ? '#fb923c' : '#22d3ee', e.type === 'boss' ? 60 : 30, e.type === 'boss' ? 8 : 5);
+            // Reduced particles for explosions
+            const particleCount = e.type === 'boss' ? 25 : e.type === 'tank' ? 15 : 10;
+            const particleSpeed = e.type === 'boss' ? 6 : 4;
+            createFX(e.x, e.y, e.type === 'boss' ? '#fbbf24' : e.type === 'tank' ? '#fb923c' : '#22d3ee', particleCount, particleSpeed);
             if (e.type === 'boss') {
               setWave(w => w + 1);
               spawnPowerUp(e.x, e.y);
@@ -281,7 +321,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
             }
             return false;
           } else {
-            createFX(e.x, e.y, '#fb923c', 10, 3);
+            createFX(e.x, e.y, '#fb923c', 5, 2);
           }
         }
         return true;
@@ -303,7 +343,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
 
     setTick(t => t + 1);
     requestRef.current = requestAnimationFrame(update);
-  }, [hasShield, rapidFire, multiShot, scoreMultiplier, score, wave]);
+  }, [hasShield, rapidFire, multiShot, scoreMultiplier, score, wave, createFX, spawnEnemy, spawnPowerUp, activatePowerUp]);
 
   useEffect(() => {
     if (gameStarted && !gameOver && !isOpening) {
@@ -458,7 +498,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
           </div>
         </div>
 
-        {/* Particles */}
+        {/* Particles with enhanced glow */}
         {entities.current.particles.map(p => (
           <div
             key={p.id}
@@ -469,13 +509,14 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
               width: `${p.size}px`,
               height: `${p.size}px`,
               backgroundColor: p.color,
-              opacity: p.life * 0.9,
-              boxShadow: `0 0 ${p.size * 2}px ${p.color}`
+              opacity: p.life * 0.95,
+              boxShadow: `0 0 ${p.size * 3}px ${p.color}, 0 0 ${p.size * 1.5}px ${p.color}`,
+              filter: `brightness(${1 + p.life * 0.3})`
             }}
           />
         ))}
 
-        {/* Enemies */}
+        {/* Enemies with enhanced visuals */}
         {entities.current.enemies.map(e => (
           <div
             key={e.id}
@@ -483,13 +524,14 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
             style={{
               left: `${e.x}%`,
               top: `${e.y}%`,
-              transform: 'translate(-50%, -50%)'
+              transform: 'translate(-50%, -50%)',
+              filter: e.type === 'boss' ? 'drop-shadow(0 0 20px rgba(239,68,68,0.8))' : 'drop-shadow(0 0 10px rgba(239,68,68,0.5))'
             }}
           >
             {e.type === 'boss' ? (
               <div className="relative">
-                <div className="absolute inset-0 bg-red-500 rounded-full blur-2xl opacity-40 animate-pulse" style={{ width: e.size, height: e.size }} />
-                <svg width={e.size} height={e.size} viewBox="0 0 70 70" className="relative drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]">
+                <div className="absolute inset-0 bg-red-500 rounded-full blur-2xl opacity-50 animate-pulse" style={{ width: e.size, height: e.size }} />
+                <svg width={e.size} height={e.size} viewBox="0 0 70 70" className="relative">
                   <circle cx="35" cy="35" r="32" fill="#dc2626" stroke="#ef4444" strokeWidth="3" />
                   <circle cx="35" cy="35" r="24" fill="#991b1b" />
                   <circle cx="26" cy="28" r="5" fill="#fca5a5" />
@@ -506,7 +548,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
                 </div>
               </div>
             ) : (
-              <svg width={e.size} height={e.size} viewBox="0 0 40 40" className={`${e.type === 'fast' ? 'animate-spin-slow' : ''} drop-shadow-[0_0_10px_rgba(239,68,68,0.4)]`}>
+              <svg width={e.size} height={e.size} viewBox="0 0 40 40" className={`${e.type === 'fast' ? 'animate-spin-slow' : ''}`}>
                 <circle
                   cx="20"
                   cy="20"
@@ -536,7 +578,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
           </div>
         ))}
 
-        {/* Power-ups */}
+        {/* Power-ups with enhanced animations */}
         {entities.current.powerUps.map(p => (
           <div
             key={p.id}
@@ -545,14 +587,18 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
               left: `${p.x}%`,
               top: `${p.y}%`,
               transform: 'translate(-50%, -50%)',
-              animation: 'float 2s ease-in-out infinite'
+              animation: 'float 2s ease-in-out infinite, pulse-glow 1.5s ease-in-out infinite'
             }}
           >
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-sm border-2 shadow-lg ${p.type === 'shield' ? 'bg-blue-500/30 border-blue-300 shadow-blue-500/50' :
-              p.type === 'rapidfire' ? 'bg-red-500/30 border-red-300 shadow-red-500/50' :
-                p.type === 'multishot' ? 'bg-purple-500/30 border-purple-300 shadow-purple-500/50' :
-                  'bg-yellow-500/30 border-yellow-300 shadow-yellow-500/50'
-              }`}>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-sm border-2 shadow-lg transition-all ${p.type === 'shield' ? 'bg-blue-500/30 border-blue-300 shadow-blue-500/60' :
+              p.type === 'rapidfire' ? 'bg-red-500/30 border-red-300 shadow-red-500/60' :
+                p.type === 'multishot' ? 'bg-purple-500/30 border-purple-300 shadow-purple-500/60' :
+                  'bg-yellow-500/30 border-yellow-300 shadow-yellow-500/60'
+              }`}
+              style={{
+                boxShadow: `0 0 20px ${p.type === 'shield' ? '#3b82f6' : p.type === 'rapidfire' ? '#ef4444' : p.type === 'multishot' ? '#a855f7' : '#eab308'}80`
+              }}
+            >
               {p.type === 'shield' && <Shield size={20} className="text-blue-200" />}
               {p.type === 'rapidfire' && <Zap size={20} className="text-red-200" />}
               {p.type === 'multishot' && <Target size={20} className="text-purple-200" />}
@@ -561,7 +607,7 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
           </div>
         ))}
 
-        {/* Bullets */}
+        {/* Bullets with enhanced trails */}
         {entities.current.bullets.map(b => (
           <div
             key={b.id}
@@ -572,7 +618,12 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
               transform: 'translateX(-50%)'
             }}
           >
-            <div className="w-1.5 h-8 bg-gradient-to-t from-cyan-400 to-blue-300 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.9)]" />
+            <div className="w-1.5 h-8 bg-gradient-to-t from-cyan-400 via-blue-300 to-white rounded-full"
+              style={{
+                boxShadow: '0 0 15px rgba(34,211,238,0.9), 0 0 8px rgba(147,197,253,0.6)',
+                filter: 'brightness(1.2)'
+              }}
+            />
           </div>
         ))}
 
@@ -781,6 +832,11 @@ export default function SpaceAdventureGame({ handleClose }: { handleClose?: () =
         @keyframes float {
           0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
           50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% { filter: brightness(1) drop-shadow(0 0 8px currentColor); }
+          50% { filter: brightness(1.3) drop-shadow(0 0 16px currentColor); }
         }
 
         @keyframes spin-slow {
