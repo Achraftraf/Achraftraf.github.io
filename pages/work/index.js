@@ -115,29 +115,6 @@ const Work = () => {
             variants={itemVariants}
             className="text-center xl:text-left xl:w-[45%] space-y-4 lg:space-y-6"
           >
-            {/* Floating Badge */}
-            <motion.div
-              variants={floatingVariants}
-              animate="animate"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 border border-purple-500/30 backdrop-blur-xl relative overflow-hidden group"
-            >
-              <motion.div
-                animate={{
-                  x: [-100, 200],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
-              />
-              <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" />
-              <span className="text-[10px] sm:text-xs text-purple-300 font-semibold tracking-wide">
-                Portfolio Showcase
-              </span>
-              <Eye className="w-3.5 h-3.5 text-cyan-400" />
-            </motion.div>
 
             {/* Title with gradient animation */}
             <motion.div variants={itemVariants}>
