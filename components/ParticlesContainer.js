@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import { Particles } from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 
-const ParticlesContainer = () => {
+const ParticlesContainer = memo(() => {
   // init
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
@@ -25,7 +25,7 @@ const ParticlesContainer = () => {
             value: 'black' // Specify a color value here, e.g., 'black'
           }
         },
-        fpsLimit: 120,
+        fpsLimit: 60,
         interactivity: {
           events: {
             onClick: {
@@ -33,17 +33,16 @@ const ParticlesContainer = () => {
             },
             onHover: {
               enable: true,
-              mode: 'repulse',
+              mode: 'grab',
             },
             resize: true,
           },
           modes: {
-            push: {
-              quantity: 90,
-            },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
+            grab: {
+              distance: 140,
+              links: {
+                opacity: 0.5
+              }
             },
           },
         },
@@ -55,18 +54,18 @@ const ParticlesContainer = () => {
             color: '#f5d393',
             distance: 150,
             enable: true,
-            opacity: 0.5,
+            opacity: 0.4,
             width: 1,
           },
           collisions: {
-            enable: true,
+            enable: false,
           },
           move: {
             direction: 'none',
             enable: true,
-            outMode: 'bounce',
+            outMode: 'out',
             random: false,
-            speed: 1,
+            speed: 0.6,
             straight: false,
           },
           number: {
@@ -74,23 +73,25 @@ const ParticlesContainer = () => {
               enable: true,
               area: 800,
             },
-            value: 80,
+            value: 40,
           },
           opacity: {
             value: 0.5,
           },
-          shape: {type: 'circle',},
+          shape: { type: 'circle', },
           size: {
             value: {
               min: 1,
               max: 3 // You need to specify both min and max values
             },
           },
-detectRetina : true,
+          detectRetina: true,
         },
       }}
     />
   );
-};
+});
+
+ParticlesContainer.displayName = 'ParticlesContainer';
 
 export default ParticlesContainer;

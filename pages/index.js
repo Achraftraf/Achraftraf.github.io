@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import ParticlesContainer from "../components/ParticlesContainer";
 import ProjectsBtn from "../components/ProjectsBtn";
@@ -12,73 +12,10 @@ import { useTheme } from '../context/ThemeContext';
 
 const Home = () => {
   const { theme, currentTheme } = useTheme();
-  const [showRipple, setShowRipple] = useState(false);
-
-  // Listen for theme changes to trigger ripple effect
-  useEffect(() => {
-    setShowRipple(true);
-    const timer = setTimeout(() => setShowRipple(false), 1000);
-    return () => clearTimeout(timer);
-  }, [currentTheme]);
 
   return (
     <div className="bg-primary/60 h-full relative overflow-hidden">
       <ThemeSwitcher />
-
-      {/* Ripple Transition Effect */}
-      <AnimatePresence>
-        {showRipple && (
-          <>
-            <motion.div
-              className="fixed pointer-events-none z-40"
-              style={{
-                left: '43%',
-                top: '33.33%',
-                transform: 'translate(-50%, -50%)'
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="absolute rounded-full border-2"
-                  style={{
-                    borderColor: theme.glow,
-                    left: '50%',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                  initial={{ width: 0, height: 0, opacity: 0.8 }}
-                  animate={{
-                    width: 2000,
-                    height: 2000,
-                    opacity: 0
-                  }}
-                  transition={{
-                    duration: 1.2,
-                    delay: i * 0.15,
-                    ease: [0.16, 1, 0.3, 1]
-                  }}
-                />
-              ))}
-            </motion.div>
-
-            {/* Color wash overlay */}
-            <motion.div
-              className="fixed inset-0 pointer-events-none z-30"
-              style={{
-                background: `radial-gradient(circle at 43% 33%, ${theme.glow}30, transparent 60%)`
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.6, 0] }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            />
-          </>
-        )}
-      </AnimatePresence>
 
       {/* Animated Background Gradient */}
       <AnimatePresence mode="wait">
@@ -193,7 +130,7 @@ const Home = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={`glow-${currentTheme}`}
-              className={`absolute inset-0 ${theme.glowOverlay} blur-3xl`}
+              className={`absolute inset-0 ${theme.glowOverlay} blur-xl`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -230,17 +167,17 @@ const Home = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`avatar-glow-${currentTheme}`}
-                  className={`absolute inset-0 ${theme.glowClass} blur-2xl rounded-full`}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  className={`absolute inset-0 ${theme.glowClass} blur-xl rounded-full`}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{
-                    opacity: [0.8, 1, 0.8],
-                    scale: [0.95, 1.05, 0.95],
+                    opacity: [0.6, 0.8, 0.6],
+                    scale: [0.98, 1.02, 0.98],
                   }}
-                  exit={{ opacity: 0, scale: 0.8 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                   transition={{
-                    opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                    scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                    exit: { duration: 0.5 }
+                    opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                    scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                    exit: { duration: 0.4 }
                   }}
                 />
               </AnimatePresence>
