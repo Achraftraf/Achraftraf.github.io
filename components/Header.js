@@ -2,6 +2,42 @@ import Link from 'next/link';
 import Socials from '../components/Socials';
 import { useTheme } from '../context/ThemeContext';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+
+const GlitchText = ({ text, theme }) => {
+  const [displayText, setDisplayText] = useState(text);
+  const chars = "!<>-_\\/[]{}—=+*^?#________";
+
+  const scramble = () => {
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setDisplayText(text
+        .split("")
+        .map((letter, index) => {
+          if (index < iteration) return text[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("")
+      );
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1 / 3; // Speed of decoding
+    }, 30);
+  };
+
+  return (
+    <motion.span
+      onHoverStart={scramble}
+      className={`relative font-mono font-bold tracking-tighter ${theme.brightGradient ? 'bg-clip-text text-transparent bg-gradient-to-r ' + theme.brightGradient : 'text-white'}`}
+    >
+      {displayText}
+      <motion.span
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ repeat: Infinity, duration: 0.8 }}
+        className={`inline-block w-[10px] h-[3px] mb-1 ml-1 ${theme.accent.replace('text-', 'bg-')}`}
+      />
+    </motion.span>
+  );
+};
 
 const Header = () => {
   const { theme } = useTheme();
@@ -10,7 +46,6 @@ const Header = () => {
     <header className='absolute z-30 w-full flex items-center px-6 sm:px-12 xl:px-0 h-[80px] lg:h-[100px]'>
       <div className='container mx-auto'>
         <div className='flex flex-col lg:flex-row justify-between items-center py-6 lg:py-8'>
-          {/* Logo - Pro & Fantastic */}
           {/* Logo - Ultra Pro & Fantastic Entrance */}
           <Link href={'/'}>
             <motion.div
@@ -35,48 +70,12 @@ const Header = () => {
                   &lt;
                 </motion.span>
 
-                {/* Name with Staggered Letter Animation */}
-                <motion.span
-                  className="relative flex items-center overflow-hidden"
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.5 } }
-                  }}
-                >
-                  {"zarouki achraf".split("").map((char, index) => (
-                    <motion.span
-                      key={index}
-                      variants={{
-                        hidden: { opacity: 0, y: 20, rotateX: 90 },
-                        visible: { opacity: 1, y: 0, rotateX: 0 }
-                      }}
-                      transition={{ type: "spring", damping: 12, stiffness: 200 }}
-                      className={`bg-clip-text text-transparent bg-gradient-to-r ${theme.brightGradient ? theme.brightGradient : 'from-white to-gray-400'} font-extrabold tracking-tight cursor-default inline-block hover:text-white transition-colors duration-300`}
-                      whileHover={{
-                        y: -5,
-                        scale: 1.3,
-                        rotate: Math.random() * 10 - 5,
-                        color: "#fff",
-                        textShadow: "0 0 8px rgba(255,255,255,0.8)"
-                      }}
-                    >
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-
-                  {/* Blinking Cursor */}
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                    className={`w-[3px] h-6 lg:h-8 ml-1 ${theme.accent.replace('text-', 'bg-')}`}
-                  />
-                </motion.span>
-
-                {/* Underline Glow - now more subtle and aligned */}
-                <span className={`absolute -bottom-2 md:-bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r ${theme.brightGradient || 'from-blue-500 to-purple-500'} group-hover:w-full transition-all duration-700 ease-out`} />
+                {/* Cyberpunk Glitch Text */}
+                <div className="relative">
+                  <GlitchText text="zarouki achraf" theme={theme} />
+                  {/* Scanline Effect */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-scanline pointer-events-none" />
+                </div>
 
                 {/* Closing Bracket - Slides in */}
                 <motion.span
