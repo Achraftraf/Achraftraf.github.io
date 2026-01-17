@@ -238,7 +238,7 @@ const About = () => {
     <div className="h-full min-h-screen bg-site py-6 lg:py-10 px-4 sm:px-6 lg:px-8 xl:pr-32 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
-      <div className="w-full max-w-5xl mx-auto relative z-10 flex flex-col justify-center h-full lg:pl-10">
+      <div className="w-full max-w-4xl mx-auto relative z-10 flex flex-col justify-center h-full lg:pl-4">
         {/* Header - More Compact */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -250,19 +250,10 @@ const About = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl lg:text-4xl font-bold text-white mb-2"
+            className="text-2xl lg:text-3xl font-bold text-white mb-2"
           >
             <span className="text-cyan-400">Gain</span> Innovate <span className="text-cyan-400">Commit</span>
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-xs lg:text-sm text-gray-400 max-w-xl mx-auto"
-          >
-            Full-stack developer specializing in AI integration and data processing
-          </motion.p>
         </motion.div>
 
         {/* Stats Cards - Compact Version */}
@@ -270,7 +261,7 @@ const About = () => {
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-3 gap-2 lg:gap-3 mb-4 lg:mb-5"
+          className="grid grid-cols-3 gap-2 mb-4"
         >
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
@@ -295,17 +286,17 @@ const About = () => {
                 />
 
                 {/* Card */}
-                <div className="relative h-full bg-[#20202d] backdrop-blur-xl rounded-lg p-3 lg:p-4 border border-white/5 group-hover:border-white/20 transition-all duration-300">
-                  <div className={`p-1.5 lg:p-2 rounded-md bg-gradient-to-br ${stat.color} w-fit mb-2`}>
-                    <Icon className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
+                <div className="relative h-full bg-[#20202d] backdrop-blur-xl rounded-lg p-2 lg:p-3 border border-white/5 group-hover:border-white/20 transition-all duration-300">
+                  <div className={`p-1 lg:p-1.5 rounded-md bg-gradient-to-br ${stat.color} w-fit mb-1`}>
+                    <Icon className="w-2.5 h-2.5 lg:w-3.5 lg:h-3.5 text-white" />
                   </div>
 
-                  <div className={`text-xl lg:text-3xl font-bold text-transparent bg-gradient-to-r ${stat.color} bg-clip-text mb-0.5`}>
+                  <div className={`text-lg lg:text-xl font-bold text-transparent bg-gradient-to-r ${stat.color} bg-clip-text mb-0`}>
                     <CountUp start={0} end={stat.value} duration={2.5} />
                     {stat.suffix}
                   </div>
 
-                  <div className="text-[10px] lg:text-xs text-gray-400">{stat.label}</div>
+                  <div className="text-[9px] lg:text-[10px] text-gray-400">{stat.label}</div>
                 </div>
               </motion.div>
             );
@@ -349,7 +340,7 @@ const About = () => {
         </motion.div>
 
         {/* Content Area - Animated Pagination */}
-        <div className="relative bg-[#20202d]/40 backdrop-blur-xl rounded-xl p-4 lg:p-5 border border-white/5 min-h-[300px] mb-6 flex flex-col justify-between">
+        <div className="relative bg-[#20202d]/40 backdrop-blur-xl rounded-xl p-3 border border-white/5 min-h-[240px] mb-4 flex flex-col justify-between">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentPage + index} // Unique key triggers animation on page/tab change

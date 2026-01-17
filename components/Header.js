@@ -59,15 +59,15 @@ const RobotLogo = ({ theme }) => {
 
       {/* Main Container */}
       <motion.div
-        className="flex items-center gap-2 font-mono relative z-20"
+        className="flex items-center gap-1.5 font-mono relative z-20"
         initial={{ scale: 0.95 }}
         animate={{ scale: isHovered ? 1.05 : 1 }}
         transition={{ type: "spring", stiffness: 200 }}
       >
         {/* Left Bracket */}
         <motion.span
-          animate={{ x: isHovered ? -10 : 0 }}
-          className={`text-2xl lg:text-3xl font-bold ${theme.accent}`}
+          animate={{ x: isHovered ? -8 : 0 }}
+          className={`text-xl lg:text-3xl font-bold ${theme.accent}`}
         >
           &lt;
         </motion.span>
@@ -100,7 +100,7 @@ const RobotLogo = ({ theme }) => {
 
           {/* Main Text */}
           <motion.span
-            className={`text-xl lg:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${theme.brightGradient ? theme.brightGradient : 'from-white to-gray-400'} z-10 relative`}
+            className={`text-lg lg:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${theme.brightGradient ? theme.brightGradient : 'from-white to-gray-400'} z-10 relative`}
           >
             {text}
           </motion.span>
@@ -122,8 +122,8 @@ const RobotLogo = ({ theme }) => {
 
         {/* Right Bracket */}
         <motion.span
-          animate={{ x: isHovered ? 10 : 0 }}
-          className={`text-2xl lg:text-3xl font-bold ${theme.accent}`}
+          animate={{ x: isHovered ? 8 : 0 }}
+          className={`text-xl lg:text-3xl font-bold ${theme.accent}`}
         >
           /&gt;
         </motion.span>
@@ -136,7 +136,7 @@ const RobotLogo = ({ theme }) => {
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
-            className={`absolute -bottom-4 left-0 right-0 flex justify-between text-[8px] tracking-widest ${theme.accent}`}
+            className={`absolute -bottom-4 left-0 right-0 flex justify-between text-[7px] lg:text-[8px] tracking-widest ${theme.accent}`}
           >
             <span>SYS.OK</span>
             <span>SECURE</span>
