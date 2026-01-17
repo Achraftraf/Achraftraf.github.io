@@ -20,6 +20,10 @@ import {
   SiMysql,
   SiTalend,
   SiCisco,
+  SiAngular,
+  SiDocker,
+  SiGit,
+  SiPhp,
 } from "react-icons/si";
 import {
   Code2,
@@ -40,30 +44,31 @@ const aboutData = [
     color: "from-blue-500 to-cyan-500",
     info: [
       {
-        title: "Web Development",
+        title: "Web Technologies",
         icons: [
+          <SiNextdotjs key="next" />,
+          <FaReact key="react" />,
+          <SiAngular key="angular" />,
           <SiSpringboot key="spring" />,
           <SiTailwindcss key="tailwind" />,
           <FaJs key="js" />,
-          <FaReact key="react" />,
-          <SiNextdotjs key="next" />,
         ],
       },
       {
         title: "Programming Languages",
-        icons: [<FaJava6 key="java" />, <FaPython6 key="python" />, <TbBrandCSharp key="csharp" />],
+        icons: [<FaJava6 key="java" />, <FaPython6 key="python" />, <TbBrandCSharp key="csharp" />, <SiPhp key="php" />],
       },
       {
-        title: "Database Management Systems",
-        icons: [<SiNeo4J key="neo4j" />, <SiRedis key="redis" />, <SiPostgresql key="postgres" />, <SiMysql key="mysql" />],
+        title: "Database & DevOps",
+        icons: [<SiNeo4J key="neo4j" />, <SiPostgresql key="postgres" />, <SiMysql key="mysql" />, <SiDocker key="docker" />, <SiGit key="git" />],
+      },
+      {
+        title: "Network & Security",
+        icons: [<SiCisco key="cisco" />],
       },
       {
         title: "Data Integration",
         icons: [<SiTalend key="talend" />],
-      },
-      {
-        title: "Network Administration",
-        icons: [<SiCisco key="cisco" />],
       },
     ],
   },
@@ -73,16 +78,20 @@ const aboutData = [
     color: "from-purple-500 to-pink-500",
     info: [
       {
-        title: "Centers Junior - NTT DATA",
-        stage: "27/03/2023 - Current",
+        title: "IT Administrator - Faculty of Medicine Rabat",
+        stage: "01/2026 - Present",
       },
       {
-        title: "Full-stack Developer",
-        stage: "02/11/2022 - 05/12/2022",
+        title: "Software Developer - NTT DATA",
+        stage: "2023 - 2026",
       },
       {
-        title: "Manager of Communication Club InfoMath",
-        stage: "13/10/2022 - Current",
+        title: "Programming Instructor - Algorithmics",
+        stage: "2025 - Present",
+      },
+      {
+        title: "Freelance AI Developer",
+        stage: "2025 - Present",
       },
     ],
   },
@@ -92,20 +101,16 @@ const aboutData = [
     color: "from-green-500 to-emerald-500",
     info: [
       {
-        title: "Master's degree, Computer Engineering - fs Tétouan",
-        stage: "2024",
+        title: "Doctorate in Artificial Intelligence - FS Tétouan",
+        stage: "2024 - Current",
       },
       {
-        title: "Bachelor's Degree in Mathematics and Computer Science",
-        stage: "2023",
+        title: "Master's degree, Computer Engineering - FS Tétouan",
+        stage: "2022 - 2024",
       },
       {
-        title: "DUG in Mathematics and Computer Science",
+        title: "Bachelor's Degree in Math & CS",
         stage: "2022",
-      },
-      {
-        title: "Baccalaureate Mathematical sciences A-French option",
-        stage: "2018",
       },
     ],
   },
@@ -115,23 +120,19 @@ const aboutData = [
     color: "from-yellow-400 to-amber-500", // Gold
     info: [
       {
-        title: "Learn Spring Boot 3 in 100 Steps - No 1 Java Framework",
+        title: "NextJS & OpenAI - 2024 Edition",
+        stage: "2024",
+      },
+      {
+        title: "Learn Spring Boot 3 in 100 Steps",
         stage: "2023",
       },
       {
-        title: "Mini projet pratique sur Talend DI",
+        title: "Data Integration & ETL with Talend",
         stage: "2023",
       },
       {
-        title: "Emotional Intelligence at Work: Learn from Your Emotions",
-        stage: "2023",
-      },
-      {
-        title: "Data Integration & ETL with Talend Open Studio Zero to Hero",
-        stage: "2023",
-      },
-      {
-        title: "Responsive Web Design",
+        title: "Emotional Intelligence at Work",
         stage: "2023",
       },
     ],
@@ -251,7 +252,7 @@ const About = () => {
             transition={{ delay: 0.2 }}
             className="text-2xl lg:text-4xl font-bold text-white mb-2"
           >
-            <span className="text-accent">Gain</span> Innovate <span className="text-accent">Commit</span>
+            <span className="text-cyan-400">Gain</span> Innovate <span className="text-cyan-400">Commit</span>
           </motion.h1>
 
           <motion.p
@@ -375,7 +376,7 @@ const About = () => {
                   <div className="bg-white/5 hover:bg-white/10 rounded-lg p-3 border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-white/5">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm lg:text-base text-white font-semibold mb-0.5 group-hover:text-accent transition-colors truncate">
+                        <h3 className="text-sm lg:text-base text-white font-semibold mb-0.5 group-hover:text-cyan-400 transition-colors truncate">
                           {item.title}
                         </h3>
                         {item.stage && (
