@@ -242,25 +242,28 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "contact@example.com",
+      value: "achrafzarouki20@gmail.com",
+      href: "mailto:achrafzarouki20@gmail.com",
       color: "from-cyan-500 to-blue-500",
     },
     {
       icon: Github,
       label: "GitHub",
-      value: "@yourusername",
+      value: "@Achraftraf",
+      href: "https://github.com/Achraftraf",
       color: "from-purple-500 to-pink-500",
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
-      value: "your-profile",
+      value: "Achraf Zarouki",
+      href: "https://www.linkedin.com/in/achraf-zarouki-058888244/",
       color: "from-blue-500 to-indigo-500",
     },
   ];
 
   return (
-    <div className="h-full min-h-screen bg-site py-4 lg:py-6 px-4 sm:px-6 lg:px-8 xl:px-12 overflow-hidden flex flex-col justify-center relative">
+    <div className="h-full min-h-screen bg-site pt-8 lg:pt-10 pb-4 lg:pb-6 px-4 sm:px-6 lg:px-8 xl:px-12 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
       {/* Animated gradient orbs */}
@@ -290,6 +293,23 @@ const Contact = () => {
       />
 
       <div className="w-full max-w-7xl mx-auto relative z-10">
+        {/* Header - Top Center of Page */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-4 lg:mb-6"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl lg:text-4xl font-bold text-white mb-2"
+          >
+            Get In <span className="text-cyan-400">Touch</span>
+          </motion.h1>
+        </motion.div>
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -301,23 +321,6 @@ const Contact = () => {
             variants={itemVariants}
             className="w-full xl:w-[40%] space-y-4"
           >
-            {/* Header */}
-            <div className="text-center xl:text-left">
-              <motion.h1
-                variants={itemVariants}
-                className="text-2xl lg:text-3xl font-bold text-white mb-2"
-              >
-                Get In <span className="text-cyan-400">Touch</span>
-              </motion.h1>
-              <motion.p
-                variants={itemVariants}
-                className="text-xs text-gray-400 max-w-md mx-auto xl:mx-0"
-              >
-                Have a project in mind or just want to chat? Drop me a message
-                and I'll get back to you soon.
-              </motion.p>
-            </div>
-
             {/* Form */}
             <motion.div
               variants={itemVariants}
@@ -452,17 +455,20 @@ const Contact = () => {
 
             {/* Quick Contact Links */}
             <motion.div variants={itemVariants} className="space-y-2">
-              <h3 className="text-xs font-semibold text-gray-400 text-center xl:text-left">
+              <h3 className="text-xs font-semibold text-gray-400 text-center">
                 Quick Connect
               </h3>
               <div className="grid grid-cols-3 gap-2">
                 {quickContacts.map((contact, index) => {
                   const Icon = contact.icon;
                   return (
-                    <motion.div
+                    <motion.a
                       key={index}
+                      href={contact.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       whileHover={{ y: -3 }}
-                      className="group relative cursor-pointer"
+                      className="group relative cursor-pointer block"
                     >
                       <div
                         className={`absolute -inset-0.5 bg-gradient-to-r ${contact.color} rounded-lg blur opacity-0 group-hover:opacity-50 transition duration-300`}
@@ -475,7 +481,7 @@ const Contact = () => {
                           {contact.label}
                         </div>
                       </div>
-                    </motion.div>
+                    </motion.a>
                   );
                 })}
               </div>
