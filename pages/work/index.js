@@ -74,7 +74,7 @@ const Work = () => {
   ];
 
   return (
-    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex items-center relative">
+    <div className="h-full min-h-screen bg-site pt-28 pb-12 lg:pt-36 lg:pb-12 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
       {/* Animated gradient orbs - Optimized */}
@@ -103,7 +103,7 @@ const Work = () => {
         className="absolute bottom-1/4 right-1/4 w-48 h-48 lg:w-64 lg:h-64 bg-pink-500/15 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="w-full max-w-[1400px] mx-auto relative z-10">
+      <div className="w-full max-w-6xl mx-auto relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -118,7 +118,7 @@ const Work = () => {
 
             {/* Title with gradient animation */}
             <motion.div variants={itemVariants}>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-2 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 leading-tight">
                 <motion.span
                   initial={{ backgroundPosition: "0% 50%" }}
                   animate={{ backgroundPosition: "100% 50%" }}
@@ -177,20 +177,20 @@ const Work = () => {
                     {/* Glow effect */}
                     <div className={`absolute -inset-0.5 bg-gradient-to-r ${stat.color} rounded-xl blur opacity-0 group-hover:opacity-50 transition duration-300`} />
 
-                    <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl p-3 border border-white/10 group-hover:border-white/30 transition-all">
-                      <div className="flex items-center gap-2.5">
+                    <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl p-2.5 border border-white/10 group-hover:border-white/30 transition-all">
+                      <div className="flex items-center gap-2">
                         <motion.div
                           whileHover={{ rotate: 180 }}
                           transition={{ duration: 0.5 }}
-                          className={`p-1.5 rounded-lg bg-gradient-to-br ${stat.color}`}
+                          className={`p-1 rounded-lg bg-gradient-to-br ${stat.color}`}
                         >
-                          <Icon className="w-3.5 h-3.5 text-white" />
+                          <Icon className="w-3 h-3 text-white" />
                         </motion.div>
                         <div>
-                          <div className="text-lg sm:text-xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                          <div className="text-lg sm:text-xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-none">
                             {stat.value}
                           </div>
-                          <div className="text-[10px] sm:text-xs text-gray-400 font-medium">{stat.label}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-none mt-0.5">{stat.label}</div>
                         </div>
                       </div>
                     </div>
