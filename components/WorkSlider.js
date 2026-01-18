@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
@@ -83,11 +83,21 @@ const workSlides = {
   ],
 };
 
-const WorkSlider = () => {
+const WorkSlider = forwardRef((props, ref) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [swiperKey, setSwiperKey] = useState(0);
 
   const closeDetails = () => setSelectedProject(null);
+
+  // Expose methods to parent component
+  useImperativeHandle(ref, () => ({
+    openFirstProject: () => {
+      // Open the first project from the first slide
+      if (workSlides.slides[0]?.images[0]) {
+        setSelectedProject(workSlides.slides[0].images[0]);
+      }
+    }
+  }));
 
   // Reset swiper when component mounts
   useEffect(() => {
@@ -232,11 +242,11 @@ const WorkSlider = () => {
               initial={{ scale: 0.8, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              transition={{ 
-                duration: 0.5, 
-                type: "spring", 
-                stiffness: 120, 
-                damping: 20 
+              transition={{
+                duration: 0.5,
+                type: "spring",
+                stiffness: 120,
+                damping: 20
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -266,10 +276,10 @@ const WorkSlider = () => {
                     alt={selectedProject.title}
                     className="w-full h-full object-cover"
                   />
-                  
+
                   {/* Gradient Overlays */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#1a1a2e]/80" />
-                  
+
                   {/* Floating Decorative Elements */}
                   <motion.div
                     animate={{
@@ -312,7 +322,7 @@ const WorkSlider = () => {
                       transition={{ delay: 0.5, duration: 0.8 }}
                       className="h-0.5 bg-gradient-to-r from-accent via-pink-500 to-purple-500 rounded-full mb-2.5"
                     />
-                    
+
                     <motion.h2
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -366,7 +376,7 @@ const WorkSlider = () => {
                         >
                           {/* Glow effect */}
                           <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-pink-500 rounded-md blur opacity-0 group-hover:opacity-50 transition duration-300" />
-                          
+
                           <span className="relative px-2.5 py-1 bg-white/5 border border-white/10 group-hover:border-accent/50 rounded-md text-[10px] sm:text-[11px] text-gray-300 font-medium backdrop-blur-sm transition-all block">
                             {tech}
                           </span>
@@ -402,7 +412,7 @@ const WorkSlider = () => {
                         }}
                         className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
                       />
-                      
+
                       <span className="relative text-[11px] sm:text-xs">View Live Project</span>
                       <ExternalLink className="w-3.5 h-3.5 relative group-hover:translate-x-1 transition-transform" />
                     </motion.a>
@@ -415,6 +425,6 @@ const WorkSlider = () => {
       </AnimatePresence>
     </div>
   );
-};
+});
 
 export default WorkSlider;

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRouter } from "next/router";
 import WorkSlider from "../../components/WorkSlider";
 import { ParticleBackground } from "../../components/particle-background";
 import { Sparkles, ArrowRight, Zap, Target, Award, TrendingUp, Eye } from "lucide-react";
 
 const Work = () => {
+  const router = useRouter();
+  const workSliderRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -24,6 +27,11 @@ const Work = () => {
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
+  };
+
+  const handleExploreProjects = () => {
+    // Open the first project in the WorkSlider
+    workSliderRef.current?.openFirstProject();
   };
 
   const containerVariants = {
@@ -74,7 +82,7 @@ const Work = () => {
   ];
 
   return (
-    <div className="h-full min-h-screen bg-site pt-28 pb-12 lg:pt-36 lg:pb-12 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex flex-col justify-center relative">
+    <div className="h-full min-h-screen bg-site pt-20 pb-12 lg:pt-28 lg:pb-16 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
       {/* Animated gradient orbs - Optimized */}
@@ -207,7 +215,8 @@ const Work = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group overflow-hidden px-6 py-3 rounded-full font-bold text-xs sm:text-sm"
+                onClick={handleExploreProjects}
+                className="relative group overflow-hidden px-6 py-3 rounded-full font-bold text-xs sm:text-sm cursor-pointer"
               >
                 {/* Animated gradient background */}
                 <motion.div
@@ -237,7 +246,8 @@ const Work = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm backdrop-blur-xl transition-all"
+                onClick={() => router.push('/contact')}
+                className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm backdrop-blur-xl transition-all cursor-pointer"
               >
                 Contact Me
               </motion.button>
@@ -246,6 +256,7 @@ const Work = () => {
 
           {/* Work Slider Section */}
           <motion.div
+            ref={workSliderRef}
             variants={itemVariants}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -256,7 +267,7 @@ const Work = () => {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="w-full xl:w-[55%] relative"
+            className="w-full xl:w-[55%] relative -mt-8 lg:-mt-12"
           >
             {/* Glow effects */}
             <motion.div
@@ -296,7 +307,7 @@ const Work = () => {
                 className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-xl pointer-events-none"
               />
 
-              <WorkSlider />
+              <WorkSlider ref={workSliderRef} />
             </div>
           </motion.div>
         </motion.div>

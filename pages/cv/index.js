@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { IoIosSend } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaUser } from "react-icons/fa";
-import Circles from "../../components/Circles";
+import { ParticleBackground } from "../../components/particle-background";
 import FlyingRocket from "../../components/flying-rocket";
 import SpaceAdventureGame from "../../components/space-advanture";
 
@@ -20,7 +20,6 @@ const ChatPage = () => {
 
   const handleCloseGame = () => {
     setPlay(false);
-    // Reset the rocket after a short delay
     setTimeout(() => {
       setShowRocket(true);
     }, 500);
@@ -56,8 +55,6 @@ const ChatPage = () => {
       if (!response.ok) throw new Error("AI fetch failed");
       const { message: aiMessage } = await response.json();
 
-      // typing simulation
-      // typing simulation
       let index = 0;
       const typingSpeed = 15;
       const typingEffect = setInterval(() => {
@@ -139,7 +136,7 @@ const ChatPage = () => {
             href={parts[i]}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-400 hover:text-indigo-300 underline font-semibold"
+            className="text-cyan-400 hover:text-cyan-300 underline font-semibold"
           >
             {parts[i]}
           </a>
@@ -155,7 +152,9 @@ const ChatPage = () => {
   };
 
   return (
-    <motion.div className="h-full bg-primary/30 py-20 flex items-center">
+    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pr-32 overflow-hidden flex flex-col justify-center relative">
+      <ParticleBackground />
+
       {showRocket && (
         <FlyingRocket
           onCatch={() => {
@@ -165,52 +164,81 @@ const ChatPage = () => {
         />
       )}
       {play && <SpaceAdventureGame handleClose={handleCloseGame} />}
-      <Circles />
+
+      {/* Animated gradient orbs */}
       <motion.div
-        className="min-h-screen w-full flex justify-center items-center  from-gray-950 via-gray-900 to-black relative overflow-hidden px-2 sm:px-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2 }}
-      >
-        {/* floating background lights */}
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.2, 0.3, 0.2],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-1/4 left-1/4 w-48 h-48 lg:w-64 lg:h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"
+      />
+      <motion.div
+        animate={{
+          scale: [1.1, 1, 1.1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute bottom-1/4 right-1/4 w-48 h-48 lg:w-64 lg:h-64 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"
+      />
+
+      <div className="w-full max-w-5xl mx-auto relative z-10">
+        {/* Header */}
         <motion.div
-          className="absolute w-72 h-72 sm:w-96 sm:h-96 bg-indigo-600/30 rounded-full blur-3xl top-8 left-8 animate-pulse"
-          animate={{ x: [0, 25, -25, 0], y: [0, 15, -15, 0] }}
-          transition={{ duration: 12, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute w-[22rem] h-[22rem] sm:w-[28rem] sm:h-[28rem] bg-purple-600/30 rounded-full blur-3xl bottom-8 right-8 animate-pulse"
-          animate={{ x: [0, -20, 20, 0], y: [0, -10, 10, 0] }}
-          transition={{ duration: 14, repeat: Infinity }}
-        />
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-6 lg:mb-8"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl lg:text-4xl font-bold text-white mb-2"
+          >
+            AI <span className="text-cyan-400">Assistant</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-sm text-gray-400 max-w-lg mx-auto"
+          >
+            Chat with our intelligent AI assistant for instant help and guidance.
+          </motion.p>
+        </motion.div>
 
         {/* chat container */}
         <motion.div
-          layout
-          className="w-full max-w-5xl h-[85vh] sm:h-[80vh] bg-white/10 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
-          initial={{ scale: 0.9, opacity: 0 }}
+          className="w-full h-[70vh] sm:h-[75vh] bg-[#20202d]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+          initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 0.6 }}
         >
-          {/* header */}
-          <motion.div
-            className="flex flex-wrap justify-between items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-gradient-to-r from-gray-900/80 via-gray-800/70 to-gray-900/80"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-          >
+          {/* header with tabs */}
+          <div className="flex flex-wrap justify-between items-center gap-2 px-3 sm:px-4 lg:px-6 py-3 border-b border-white/10 bg-[#1a1a2e]/80">
             <div className="flex flex-wrap gap-2">
               <AnimatePresence>
                 {tabs.map((tab) => (
                   <motion.button
                     key={tab.id}
                     onClick={() => handleTabChange(tab.id)}
-                    className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm rounded-full font-medium transition-all ${activeTab === tab.id
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
-                        : "bg-gray-700/50 text-gray-400 hover:bg-gray-700/70"
+                    className={`px-3 py-1.5 text-xs sm:text-sm rounded-full font-medium transition-all ${activeTab === tab.id
+                        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-md"
+                        : "bg-white/5 text-gray-400 hover:bg-white/10"
                       }`}
-                    whileHover={{ scale: 1.08 }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    layout
                   >
                     {tab.name}
                   </motion.button>
@@ -220,16 +248,16 @@ const ChatPage = () => {
 
             <motion.button
               onClick={handleNewTab}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-3 py-1 text-xs sm:text-sm text-white rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 shadow-md hover:opacity-90"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-3 py-1.5 text-xs sm:text-sm text-white rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-lg transition-all"
             >
-              + New Chat
+              + New
             </motion.button>
-          </motion.div>
+          </div>
 
           {/* chat messages */}
-          <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-4 scrollbar-thin scrollbar-thumb-gray-700/70">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-5 space-y-3 sm:space-y-4">
             <AnimatePresence>
               {currentTabMessages.map((msg, index) => (
                 <motion.div
@@ -237,36 +265,28 @@ const ChatPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                  transition={{ duration: 0.3 }}
+                  className={`flex gap-2 ${msg.type === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.type !== "user" && (
-                    <motion.div
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-2 bg-indigo-500/40"
-                      initial={{ rotate: -15 }}
-                      animate={{ rotate: 0 }}
-                    >
-                      <FaRobot className="text-indigo-300 text-xs sm:text-sm" />
-                    </motion.div>
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex-shrink-0">
+                      <FaRobot className="text-cyan-300 text-xs sm:text-sm" />
+                    </div>
                   )}
                   <div
-                    className={`px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm max-w-[80%] sm:max-w-[70%] ${msg.type === "user"
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
+                    className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm max-w-[85%] sm:max-w-[75%] ${msg.type === "user"
+                        ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white"
                         : msg.type === "error"
                           ? "bg-red-500/80 text-white"
-                          : "bg-gray-800/70 text-gray-100"
+                          : "bg-white/10 text-gray-100 border border-white/10"
                       }`}
                   >
                     {formatMessage(msg.text)}
                   </div>
                   {msg.type === "user" && (
-                    <motion.div
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ml-2 bg-gray-700/40"
-                      initial={{ rotate: 15 }}
-                      animate={{ rotate: 0 }}
-                    >
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/10 flex-shrink-0">
                       <FaUser className="text-gray-300 text-xs sm:text-sm" />
-                    </motion.div>
+                    </div>
                   )}
                 </motion.div>
               ))}
@@ -274,7 +294,7 @@ const ChatPage = () => {
 
             {loading && (
               <motion.div
-                className="flex items-center gap-2 text-gray-400 text-xs pl-10"
+                className="flex items-center gap-2 text-gray-400 text-xs sm:text-sm"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
@@ -282,7 +302,7 @@ const ChatPage = () => {
                   {[0, 0.2, 0.4].map((d, i) => (
                     <motion.span
                       key={i}
-                      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+                      className="w-1.5 h-1.5 bg-cyan-400 rounded-full"
                       animate={{ y: [0, -4, 0] }}
                       transition={{ repeat: Infinity, duration: 0.6, delay: d }}
                     />
@@ -295,37 +315,35 @@ const ChatPage = () => {
           </div>
 
           {/* input */}
-          <motion.form
+          <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 sm:gap-3 p-2 sm:p-4 border-t border-white/10 bg-gray-900/60 backdrop-blur-xl"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border-t border-white/10 bg-[#1a1a2e]/60"
           >
             <input
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Type your message..."
-              className="flex-grow px-3 sm:px-4 py-2 rounded-lg bg-gray-800/70 text-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-white/5 text-gray-200 placeholder-gray-500 text-sm border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
               disabled={loading}
             />
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.1, rotate: 10 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               disabled={loading || !text.trim()}
-              className="p-2 sm:p-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 transition-all"
+              className="p-2.5 sm:p-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg disabled:opacity-50 transition-all flex-shrink-0"
             >
               {loading ? (
-                <motion.div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-t-transparent border-white rounded-full animate-spin" />
               ) : (
-                <IoIosSend size={20} className="sm:size-5" />
+                <IoIosSend size={20} className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </motion.button>
-          </motion.form>
+          </form>
         </motion.div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
