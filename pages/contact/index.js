@@ -260,7 +260,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pr-32 overflow-hidden flex flex-col justify-center relative">
+    <div className="h-full min-h-screen bg-site py-4 lg:py-6 px-4 sm:px-6 lg:px-8 xl:px-12 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
       {/* Animated gradient orbs */}
@@ -289,29 +289,29 @@ const Contact = () => {
         className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="w-full max-w-6xl mx-auto relative z-10">
+      <div className="w-full max-w-7xl mx-auto relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="flex flex-col xl:flex-row items-center gap-8 lg:gap-12"
+          className="flex flex-col xl:flex-row items-start xl:items-center gap-6 lg:gap-8"
         >
           {/* Left Section - Form */}
           <motion.div
             variants={itemVariants}
-            className="w-full xl:w-[45%] space-y-6"
+            className="w-full xl:w-[40%] space-y-4"
           >
             {/* Header */}
             <div className="text-center xl:text-left">
               <motion.h1
                 variants={itemVariants}
-                className="text-3xl lg:text-4xl font-bold text-white mb-3"
+                className="text-2xl lg:text-3xl font-bold text-white mb-2"
               >
                 Get In <span className="text-cyan-400">Touch</span>
               </motion.h1>
               <motion.p
                 variants={itemVariants}
-                className="text-sm text-gray-400 max-w-md mx-auto xl:mx-0"
+                className="text-xs text-gray-400 max-w-md mx-auto xl:mx-0"
               >
                 Have a project in mind or just want to chat? Drop me a message
                 and I'll get back to you soon.
@@ -321,16 +321,16 @@ const Contact = () => {
             {/* Form */}
             <motion.div
               variants={itemVariants}
-              className="bg-[#20202d]/40 backdrop-blur-xl rounded-xl p-6 border border-white/10"
+              className="bg-[#20202d]/40 backdrop-blur-xl rounded-xl p-4 border border-white/10"
             >
-              <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+              <form className="space-y-3" onSubmit={handleSubmit} noValidate>
                 {/* Name Field */}
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                     <motion.input
                       whileFocus={{ scale: 1.01 }}
-                      className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
                       placeholder="Your Name"
                       type="text"
                       value={data.senderName}
@@ -345,12 +345,12 @@ const Contact = () => {
                 </div>
 
                 {/* Email Field */}
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                     <motion.input
                       whileFocus={{ scale: 1.01 }}
-                      className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
                       placeholder="your.email@example.com"
                       type="email"
                       value={data.email}
@@ -368,7 +368,7 @@ const Contact = () => {
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
-                        className="text-xs text-cyan-400 flex items-center gap-2"
+                        className="text-xs text-cyan-400 flex items-center gap-2 pl-1"
                       >
                         <Sparkles className="w-3 h-3" />
                         <span>I'll use this to get back to you</span>
@@ -378,12 +378,12 @@ const Contact = () => {
                 </div>
 
                 {/* Message Field */}
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="relative">
-                    <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                    <MessageSquare className="absolute left-3 top-3 w-3.5 h-3.5 text-gray-400" />
                     <motion.textarea
                       whileFocus={{ scale: 1.01 }}
-                      className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 resize-none min-h-[120px] transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 resize-none min-h-[100px] transition-all"
                       placeholder="Your message..."
                       value={data.message}
                       name="message"
@@ -406,7 +406,7 @@ const Contact = () => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={status.isSubmitting}
-                  className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white text-sm font-semibold rounded-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {status.isSubmitting ? (
                     <>
@@ -414,13 +414,13 @@ const Contact = () => {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       >
-                        <Sparkles className="w-4 h-4" />
+                        <Sparkles className="w-3.5 h-3.5" />
                       </motion.div>
                       <span>Sending...</span>
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-3.5 h-3.5" />
                       <span>Send Message</span>
                     </>
                   )}
@@ -433,15 +433,15 @@ const Contact = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className={`flex items-center gap-2 text-sm px-4 py-3 rounded-lg ${status.info.isError
-                          ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                          : "bg-green-500/10 text-green-400 border border-green-500/20"
+                      className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg ${status.info.isError
+                        ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                        : "bg-green-500/10 text-green-400 border border-green-500/20"
                         }`}
                     >
                       {status.info.isError ? (
-                        <AlertCircle className="w-4 h-4" />
+                        <AlertCircle className="w-3.5 h-3.5" />
                       ) : (
-                        <CheckCircle2 className="w-4 h-4" />
+                        <CheckCircle2 className="w-3.5 h-3.5" />
                       )}
                       <span>{status.info.msg}</span>
                     </motion.div>
@@ -451,11 +451,11 @@ const Contact = () => {
             </motion.div>
 
             {/* Quick Contact Links */}
-            <motion.div variants={itemVariants} className="space-y-3">
-              <h3 className="text-sm font-semibold text-gray-400 text-center xl:text-left">
+            <motion.div variants={itemVariants} className="space-y-2">
+              <h3 className="text-xs font-semibold text-gray-400 text-center xl:text-left">
                 Quick Connect
               </h3>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2">
                 {quickContacts.map((contact, index) => {
                   const Icon = contact.icon;
                   return (
@@ -467,11 +467,11 @@ const Contact = () => {
                       <div
                         className={`absolute -inset-0.5 bg-gradient-to-r ${contact.color} rounded-lg blur opacity-0 group-hover:opacity-50 transition duration-300`}
                       />
-                      <div className="relative bg-[#20202d] rounded-lg p-3 border border-white/10 group-hover:border-white/20 transition-all">
-                        <div className={`p-2 rounded-md bg-gradient-to-br ${contact.color} w-fit mx-auto mb-2`}>
-                          <Icon className="w-4 h-4 text-white" />
+                      <div className="relative bg-[#20202d] rounded-lg p-2 border border-white/10 group-hover:border-white/20 transition-all">
+                        <div className={`p-1.5 rounded-md bg-gradient-to-br ${contact.color} w-fit mx-auto mb-1.5`}>
+                          <Icon className="w-3 h-3 text-white" />
                         </div>
-                        <div className="text-xs text-gray-400 text-center group-hover:text-cyan-400 transition-colors">
+                        <div className="text-[10px] text-gray-400 text-center group-hover:text-cyan-400 transition-colors">
                           {contact.label}
                         </div>
                       </div>
@@ -482,89 +482,88 @@ const Contact = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Section - 3D Model */}
+          {/* Right Section - 3D Model (No Card, Larger) */}
           <motion.div
             variants={itemVariants}
             onHoverStart={() => setHoveredModel(true)}
             onHoverEnd={() => setHoveredModel(false)}
-            className="w-full xl:w-[55%] relative"
+            className="w-full xl:w-[60%] relative"
           >
-            {/* Glow effect */}
+            {/* Enhanced Glow effect */}
             <motion.div
               animate={{
-                scale: hoveredModel ? 1.05 : 1,
-                opacity: hoveredModel ? 0.6 : 0.4,
+                scale: hoveredModel ? 1.08 : 1.02,
+                opacity: hoveredModel ? 0.7 : 0.5,
               }}
               transition={{ duration: 0.4 }}
-              className="absolute -inset-4 bg-gradient-to-r from-cyan-500/30 via-blue-500/30 to-purple-500/30 rounded-3xl blur-2xl pointer-events-none"
+              className="absolute -inset-8 bg-gradient-to-r from-cyan-500/40 via-blue-500/40 to-purple-500/40 rounded-full blur-3xl pointer-events-none"
             />
 
-            {/* Model Container */}
-            <div className="relative bg-[#20202d]/40 backdrop-blur-xl rounded-2xl p-4 border border-white/10 overflow-hidden">
-              {/* Floating decorative elements */}
-              <motion.div
-                animate={{
-                  y: [-15, 15, -15],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 15,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-                className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full blur-xl pointer-events-none"
-              />
-              <motion.div
-                animate={{
-                  y: [15, -15, 15],
-                  rotate: [360, 180, 0],
-                }}
-                transition={{
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-                className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-xl pointer-events-none"
-              />
+            {/* Floating decorative elements - More prominent */}
+            <motion.div
+              animate={{
+                y: [-20, 20, -20],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-cyan-400/30 to-blue-400/30 rounded-full blur-xl pointer-events-none"
+            />
+            <motion.div
+              animate={{
+                y: [20, -20, 20],
+                rotate: [360, 180, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="absolute -bottom-8 -left-8 w-20 h-20 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-xl pointer-events-none"
+            />
+            <motion.div
+              animate={{
+                x: [-15, 15, -15],
+                y: [15, -15, 15],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="absolute top-1/2 right-0 w-12 h-12 bg-gradient-to-br from-blue-400/25 to-cyan-400/25 rounded-full blur-lg pointer-events-none"
+            />
 
-              <div className="aspect-[16/10] relative">
-                <Canvas
-                  camera={{
-                    position: [8, 5, 7],
-                    fov: 45,
-                    near: 0.6,
-                    far: 100,
-                  }}
-                  className="rounded-xl"
-                >
-                  <ambientLight intensity={0.6} />
-                  <directionalLight position={[5, 5, 5]} intensity={1.2} />
-                  <spotLight position={[10, 10, 10]} intensity={0.5} />
-                  <Model />
-                  <OrbitControls
-                    enableZoom={true}
-                    enablePan={false}
-                    autoRotate={true}
-                    autoRotateSpeed={0.5}
-                  />
-                  <Environment preset="sunset" />
-                </Canvas>
-              </div>
-
-              {/* Info badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="mt-4 text-center"
+            {/* 3D Model - Direct Canvas without container card */}
+            <div className="relative aspect-[16/9]">
+              <Canvas
+                camera={{
+                  position: [10, 6, 8],
+                  fov: 50,
+                  near: 0.5,
+                  far: 120,
+                }}
+                className="rounded-2xl"
               >
-                <div className="inline-flex items-center gap-2 bg-cyan-500/10 px-4 py-2 rounded-full border border-cyan-500/20">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="text-xs text-cyan-400 font-medium">
-                    Interactive 3D Model - Drag to Rotate
-                  </span>
-                </div>
-              </motion.div>
+                <ambientLight intensity={0.7} />
+                <directionalLight position={[10, 10, 8]} intensity={1.5} />
+                <directionalLight position={[-5, 5, -5]} intensity={0.8} />
+                <spotLight position={[15, 15, 15]} intensity={0.8} angle={0.3} penumbra={1} />
+                <pointLight position={[0, 10, 0]} intensity={0.5} />
+                <Model />
+                <OrbitControls
+                  enableZoom={true}
+                  enablePan={false}
+                  autoRotate={true}
+                  autoRotateSpeed={0.8}
+                  minDistance={5}
+                  maxDistance={20}
+                />
+                <Environment preset="city" />
+              </Canvas>
             </div>
           </motion.div>
         </motion.div>

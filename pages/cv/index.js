@@ -208,14 +208,7 @@ const ChatPage = () => {
             AI <span className="text-cyan-400">Assistant</span>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-sm text-gray-400 max-w-lg mx-auto"
-          >
-            Chat with our intelligent AI assistant for instant help and guidance.
-          </motion.p>
+
         </motion.div>
 
         {/* chat container */}
@@ -234,8 +227,8 @@ const ChatPage = () => {
                     key={tab.id}
                     onClick={() => handleTabChange(tab.id)}
                     className={`px-3 py-1.5 text-xs sm:text-sm rounded-full font-medium transition-all ${activeTab === tab.id
-                        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-md"
-                        : "bg-white/5 text-gray-400 hover:bg-white/10"
+                      ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-md"
+                      : "bg-white/5 text-gray-400 hover:bg-white/10"
                       }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -275,10 +268,10 @@ const ChatPage = () => {
                   )}
                   <div
                     className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm max-w-[85%] sm:max-w-[75%] ${msg.type === "user"
-                        ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white"
-                        : msg.type === "error"
-                          ? "bg-red-500/80 text-white"
-                          : "bg-white/10 text-gray-100 border border-white/10"
+                      ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white"
+                      : msg.type === "error"
+                        ? "bg-red-500/80 text-white"
+                        : "bg-white/10 text-gray-100 border border-white/10"
                       }`}
                   >
                     {formatMessage(msg.text)}
