@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRouter } from "next/router";
 import WorkSlider from "../../components/WorkSlider";
 import { ParticleBackground } from "../../components/particle-background";
 import { Sparkles, ArrowRight, Zap, Target, Award, TrendingUp, Eye } from "lucide-react";
 
 const Work = () => {
+  const router = useRouter();
+  const workSliderRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -24,6 +27,11 @@ const Work = () => {
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
+  };
+
+  const handleExploreProjects = () => {
+    // Open the first project in the WorkSlider
+    workSliderRef.current?.openFirstProject();
   };
 
   const containerVariants = {
@@ -74,7 +82,7 @@ const Work = () => {
   ];
 
   return (
-    <div className="h-full min-h-screen bg-site py-8 lg:py-12 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex items-center relative">
+    <div className="h-full min-h-screen bg-site pt-20 pb-12 lg:pt-28 lg:pb-16 px-4 sm:px-6 lg:px-8 xl:pl-16 xl:pr-36 overflow-hidden flex flex-col justify-center relative">
       <ParticleBackground />
 
       {/* Animated gradient orbs - Optimized */}
@@ -103,7 +111,7 @@ const Work = () => {
         className="absolute bottom-1/4 right-1/4 w-48 h-48 lg:w-64 lg:h-64 bg-pink-500/15 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="w-full max-w-[1400px] mx-auto relative z-10">
+      <div className="w-full max-w-6xl mx-auto relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -115,33 +123,10 @@ const Work = () => {
             variants={itemVariants}
             className="text-center xl:text-left xl:w-[45%] space-y-4 lg:space-y-6"
           >
-            {/* Floating Badge */}
-            <motion.div
-              variants={floatingVariants}
-              animate="animate"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 border border-purple-500/30 backdrop-blur-xl relative overflow-hidden group"
-            >
-              <motion.div
-                animate={{
-                  x: [-100, 200],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
-              />
-              <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" />
-              <span className="text-[10px] sm:text-xs text-purple-300 font-semibold tracking-wide">
-                Portfolio Showcase
-              </span>
-              <Eye className="w-3.5 h-3.5 text-cyan-400" />
-            </motion.div>
 
             {/* Title with gradient animation */}
             <motion.div variants={itemVariants}>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-2 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 leading-tight">
                 <motion.span
                   initial={{ backgroundPosition: "0% 50%" }}
                   animate={{ backgroundPosition: "100% 50%" }}
@@ -200,20 +185,20 @@ const Work = () => {
                     {/* Glow effect */}
                     <div className={`absolute -inset-0.5 bg-gradient-to-r ${stat.color} rounded-xl blur opacity-0 group-hover:opacity-50 transition duration-300`} />
 
-                    <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl p-3 border border-white/10 group-hover:border-white/30 transition-all">
-                      <div className="flex items-center gap-2.5">
+                    <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl p-2.5 border border-white/10 group-hover:border-white/30 transition-all">
+                      <div className="flex items-center gap-2">
                         <motion.div
                           whileHover={{ rotate: 180 }}
                           transition={{ duration: 0.5 }}
-                          className={`p-1.5 rounded-lg bg-gradient-to-br ${stat.color}`}
+                          className={`p-1 rounded-lg bg-gradient-to-br ${stat.color}`}
                         >
-                          <Icon className="w-3.5 h-3.5 text-white" />
+                          <Icon className="w-3 h-3 text-white" />
                         </motion.div>
                         <div>
-                          <div className="text-lg sm:text-xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                          <div className="text-lg sm:text-xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-none">
                             {stat.value}
                           </div>
-                          <div className="text-[10px] sm:text-xs text-gray-400 font-medium">{stat.label}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-none mt-0.5">{stat.label}</div>
                         </div>
                       </div>
                     </div>
@@ -230,7 +215,8 @@ const Work = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group overflow-hidden px-6 py-3 rounded-full font-bold text-xs sm:text-sm"
+                onClick={handleExploreProjects}
+                className="relative group overflow-hidden px-6 py-3 rounded-full font-bold text-xs sm:text-sm cursor-pointer"
               >
                 {/* Animated gradient background */}
                 <motion.div
@@ -260,7 +246,8 @@ const Work = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm backdrop-blur-xl transition-all"
+                onClick={() => router.push('/contact')}
+                className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm backdrop-blur-xl transition-all cursor-pointer"
               >
                 Contact Me
               </motion.button>
@@ -269,6 +256,7 @@ const Work = () => {
 
           {/* Work Slider Section */}
           <motion.div
+            ref={workSliderRef}
             variants={itemVariants}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -279,7 +267,7 @@ const Work = () => {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="w-full xl:w-[55%] relative"
+            className="w-full xl:w-[55%] relative -mt-8 lg:-mt-12"
           >
             {/* Glow effects */}
             <motion.div
@@ -319,7 +307,7 @@ const Work = () => {
                 className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-xl pointer-events-none"
               />
 
-              <WorkSlider />
+              <WorkSlider ref={workSliderRef} />
             </div>
           </motion.div>
         </motion.div>

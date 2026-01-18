@@ -123,7 +123,7 @@ const Services = () => {
             transition={{ delay: 0.3 }}
             className="text-3xl lg:text-4xl font-bold text-white mb-2"
           >
-            My <span className="text-accent">Services</span>
+            My <span className="text-cyan-400">Services</span>
           </motion.h1>
 
           <motion.p
@@ -192,12 +192,12 @@ const Services = () => {
                       }}
                       className="p-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
                     >
-                      <ArrowRight className="w-3.5 h-3.5 text-white/50 group-hover:text-accent" />
+                      <ArrowRight className="w-3.5 h-3.5 text-white/50 group-hover:text-cyan-400" />
                     </motion.div>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base font-bold text-white mb-1.5 z-10 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-accent transition-all">
+                  <h3 className="text-base font-bold text-white mb-1.5 z-10 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-cyan-400 transition-all">
                     {service.title}
                   </h3>
 
@@ -234,7 +234,7 @@ const Services = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => router.push('/contact')}
-            className="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white px-5 py-2 rounded-full font-medium transition-all duration-300 text-sm shadow-lg shadow-accent/25 hover:shadow-accent/40"
+            className="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2 rounded-full font-medium transition-all duration-300 text-sm shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40"
           >
             <span>Start a Project</span>
             <ArrowRight className="w-4 h-4" />
