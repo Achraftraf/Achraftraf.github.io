@@ -23,55 +23,180 @@ import {
 
 import { ParticleBackground } from "../../components/particle-background";
 
-// 3D Laptop Model Component
+// Premium 3D Model Loader - Professional Design
+const CanvasLoader = () => {
+  return (
+    <Html center>
+      <div className="flex flex-col items-center gap-6">
+        {/* Main loader container with glow */}
+        <div className="relative">
+          {/* Outer glow effect */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute -inset-8 bg-gradient-to-r from-cyan-500/40 via-blue-500/40 to-purple-500/40 rounded-full blur-2xl"
+          />
+
+          {/* Triple ring spinner */}
+          <div className="relative w-24 h-24">
+            {/* Outer ring - Cyan */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-cyan-400 border-r-cyan-500"
+              style={{
+                boxShadow: "0 0 20px rgba(34, 211, 238, 0.5)"
+              }}
+            />
+
+            {/* Middle ring - Blue */}
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="absolute inset-3 rounded-full border-[3px] border-transparent border-b-blue-400 border-l-blue-500"
+              style={{
+                boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)"
+              }}
+            />
+
+            {/* Inner ring - Purple */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="absolute inset-6 rounded-full border-[3px] border-transparent border-t-purple-400 border-b-purple-500"
+              style={{
+                boxShadow: "0 0 10px rgba(168, 85, 247, 0.5)"
+              }}
+            />
+
+            {/* Center icon with pulse */}
+            <motion.div
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.6, 1, 0.6]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute inset-0 m-auto w-6 h-6 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-500 rounded-full"
+              style={{
+                boxShadow: "0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.4)"
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Animated text with gradient */}
+        <motion.div
+          animate={{
+            opacity: [0.7, 1, 0.7]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 font-bold text-base tracking-wider"
+        >
+          loading...
+        </motion.div>
+
+        {/* Progress dots */}
+        <div className="flex gap-2">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              animate={{
+                y: [0, -10, 0],
+                scale: [1, 1.3, 1],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.1
+              }}
+              className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
+              style={{
+                boxShadow: "0 0 8px rgba(34, 211, 238, 0.6)"
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </Html>
+  );
+};
+
+// 3D Laptop Model Component with visible loading
 const Model = () => {
   const ref = useRef();
-  const { scene, animations, loading, error } = useGLTF("/laptop.glb");
+  const [isLoading, setIsLoading] = useState(true);
+  const { scene, animations } = useGLTF("/laptop.glb");
+  const { actions } = useAnimations(animations, ref);
 
-  // Loading state
-  if (loading) {
-    return (
-      <Html center>
-        <div className="text-cyan-400">Loading...</div>
-      </Html>
-    );
-  }
-
-  // Error handling
-  if (error) {
-    console.error("Error loading model:", error);
-    return (
-      <Html center>
-        <div className="text-red-400">Error loading model</div>
-      </Html>
-    );
-  }
-
-  // Check if scene is available
-  if (!scene) {
-    return (
-      <Html center>
-        <div className="text-yellow-400">Model not available</div>
-      </Html>
-    );
-  }
-
-  const { actions } = useAnimations(animations, scene);
-
-  // Play animation if present
+  // Control loading state with minimum 10 second display
   useEffect(() => {
-    if (actions && Object.keys(actions).length > 0) {
-      actions[Object.keys(actions)[0]].play();
-    }
-  }, [actions]);
+    if (scene) {
+      // Keep loading for minimum 10 seconds
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000); // 10 seconds - change this value as needed
 
+      return () => clearTimeout(timer);
+    }
+  }, [scene]);
+
+  // Play animation when model is ready
+  useEffect(() => {
+    if (actions && Object.keys(actions).length > 0 && !isLoading) {
+      const firstAction = actions[Object.keys(actions)[0]];
+      if (firstAction) {
+        firstAction.play();
+      }
+    }
+  }, [actions, isLoading]);
+
+  // Show loader while loading
+  if (isLoading) {
+    return <CanvasLoader />;
+  }
+
+  // Show model when loaded
   return (
-    <primitive
-      ref={ref}
-      object={scene}
-      scale={[3, 3, 3]}
-      position={[10, -2, 0]}
-    />
+    <motion.group
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <primitive
+        ref={ref}
+        object={scene}
+        scale={[3, 3, 3]}
+        position={[10, -2, 0]}
+      />
+    </motion.group>
   );
 };
 
@@ -147,7 +272,7 @@ const Contact = () => {
           ...prev,
           isSubmitted: false,
         }));
-      }, 5000);
+      }, 2000);
     } else {
       setStatus((prev) => ({
         ...prev,
