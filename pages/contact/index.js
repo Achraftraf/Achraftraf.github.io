@@ -23,126 +23,97 @@ import {
 
 import { ParticleBackground } from "../../components/particle-background";
 
-// Premium 3D Model Loader - Professional Design
+// Premium Holographic Loader - High-Tech Design
 const CanvasLoader = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 100;
+        return prev + 1;
+      });
+    }, 20); // 100 steps * 20ms = 2000ms (Matches Model timeout)
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Html center>
-      <div className="flex flex-col items-center gap-6">
-        {/* Main loader container with glow */}
-        <div className="relative">
-          {/* Outer glow effect */}
+      <div className="flex flex-col items-center justify-center w-64">
+        <div className="relative flex items-center justify-center w-32 h-32 mb-8">
+          {/* Ambient Background Glow */}
           <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute -inset-8 bg-gradient-to-r from-cyan-500/40 via-blue-500/40 to-purple-500/40 rounded-full blur-2xl"
+            animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.2, 1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="absolute inset-0 bg-cyan-500/20 rounded-full blur-3xl"
           />
 
-          {/* Triple ring spinner */}
-          <div className="relative w-24 h-24">
-            {/* Outer ring - Cyan */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-cyan-400 border-r-cyan-500"
-              style={{
-                boxShadow: "0 0 20px rgba(34, 211, 238, 0.5)"
-              }}
-            />
+          {/* Core Reacting Orb */}
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500/30 to-blue-600/30 border border-cyan-400/50 backdrop-blur-sm"
+            style={{ boxShadow: "0 0 30px rgba(6,182,212,0.3)" }}
+          >
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+          </motion.div>
 
-            {/* Middle ring - Blue */}
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute inset-3 rounded-full border-[3px] border-transparent border-b-blue-400 border-l-blue-500"
-              style={{
-                boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)"
-              }}
-            />
+          {/* Inner Dashed Ring - Fast Rotation */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute w-24 h-24 border-2 border-dashed border-cyan-500/40 rounded-full"
+          />
 
-            {/* Inner ring - Purple */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute inset-6 rounded-full border-[3px] border-transparent border-t-purple-400 border-b-purple-500"
-              style={{
-                boxShadow: "0 0 10px rgba(168, 85, 247, 0.5)"
-              }}
-            />
+          {/* Outer Scanner Ring - Counter Rotation */}
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            className="absolute w-32 h-32 rounded-full border border-white/5"
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-3 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,1)]" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]" />
+          </motion.div>
 
-            {/* Center icon with pulse */}
-            <motion.div
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.6, 1, 0.6]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute inset-0 m-auto w-6 h-6 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-500 rounded-full"
-              style={{
-                boxShadow: "0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.4)"
-              }}
-            />
+          {/* Tech Markers */}
+          <div className="absolute w-full h-full">
+            {[0, 90, 180, 270].map((deg) => (
+              <div
+                key={deg}
+                className="absolute top-1/2 left-1/2 w-36 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent"
+                style={{ transform: `translate(-50%, -50%) rotate(${deg}deg)` }}
+              />
+            ))}
+          </div>
+
+          {/* Center Digital Readout */}
+          <div className="absolute font-mono text-xl font-bold text-white tabular-nums tracking-widest text-shadow-glow">
+            {progress}
+            <span className="text-xs text-cyan-400">%</span>
           </div>
         </div>
 
-        {/* Animated text with gradient */}
-        <motion.div
-          animate={{
-            opacity: [0.7, 1, 0.7]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 font-bold text-base tracking-wider"
-        >
-          loading...
-        </motion.div>
+        {/* Status Text with Typing Cursor */}
+        <div className="space-y-2 text-center">
+          <motion.div
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="font-mono text-sm tracking-[0.2em] text-cyan-300 uppercase"
+          >
+            System Initializing
+          </motion.div>
 
-        {/* Progress dots */}
-        <div className="flex gap-2">
-          {[0, 1, 2, 3, 4].map((i) => (
+          <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
             <motion.div
-              key={i}
-              animate={{
-                y: [0, -10, 0],
-                scale: [1, 1.3, 1],
-              }}
-              transition={{
-                duration: 1,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.1
-              }}
-              className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
-              style={{
-                boxShadow: "0 0 8px rgba(34, 211, 238, 0.6)"
-              }}
+              className="h-full bg-gradient-to-r from-cyan-500 to-blue-600"
+              style={{ width: `${progress}%` }}
             />
-          ))}
+          </div>
+
+          <div className="flex justify-between w-48 text-[10px] text-gray-400 font-mono">
+            <span>DATA_STREAM</span>
+            <span>SECURE_LINK</span>
+          </div>
         </div>
       </div>
     </Html>
